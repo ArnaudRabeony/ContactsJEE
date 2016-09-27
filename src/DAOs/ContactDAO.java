@@ -15,34 +15,14 @@ public class ContactDAO {
 	ResultSet rs = null;
 	Connection con = null;
 	
-	String driver="com.mysql.jdbc.Driver";
-	String url = "jdbc:mysql://localhost:3306/pweb?autoReconnect=true&useSSL=false";
-	String uid = "root";
-	String passwd = "root";
-
 	public ContactDAO()
 	{
-		con = this.getConnection();
+		con = GlobalConnexion.getConnection();
 	}
 	
 	public Connection getConnection()
 	{
-		try
-		{
-		Class.forName(driver);
-		con = DriverManager.getConnection(url, uid, passwd);
-		}
-		catch(ClassNotFoundException e)
-		{
-			System.out.println(e.getMessage());
-		}
-		catch(SQLException e)
-		{
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-		}
-		
-		return con;
+		return GlobalConnexion.getConnection();
 	}
 	
 	public void createContact(String nom,String prenom,String email)
@@ -336,5 +316,4 @@ public class ContactDAO {
 
 		return exists;
 	}
-	
 }

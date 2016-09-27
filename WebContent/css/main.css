@@ -1,0 +1,54 @@
+#welcomeSession
+{
+	float:right;
+}
+
+body
+{
+	padding: 5px 30px 5px 30px;
+	overflow-x:hidden;
+	
+}
+
+.groupPanel .panel-heading,.contactItem img
+
+{
+	cursor:pointer;
+}
+
+.contactItem>span
+{
+	color: #969696;
+    font-size: 0.9em;
+    float: right;
+    margin-top: -7px;
+    display: none;
+}
+
+#cardContainer
+{
+	display:none;
+	position: relative;
+    left: 25%;
+    top: 50px;
+}
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    width: 50%;
+    border-radius: 5px;
+    cursor:pointer;
+}
+
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+img {
+    border-radius: 5px 5px 0 0;
+}
+
+.container {
+    padding: 2px 16px;
+}

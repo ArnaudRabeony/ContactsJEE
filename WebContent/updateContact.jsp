@@ -11,25 +11,9 @@
 <%@ page errorPage="error.jsp" %>
 <a href="index.jsp">Retour à l'accueil</a>
 	<h1>Modifier contact :</h1> <br>
-	
-	<% String id = request.getParameter("id"); %>
 	<div class="row">
 	<form class="form-group col-sm-3 col-md-3" method="post" action="Update">
-	<%
-		if(id == null)
-		{
-			%>	
-			<label for="id">ID :</label><input class="form-control" type="number" name="id" id="id" value="errorId"><br>
-			<%
-		}
-		else
-		{
-			%>	
-			<label for="idDisabled">ID :</label><input class="form-control" type="number" name="idDisabled" id="idDisabled" value="<%= id %>" disabled><br>
-			<input type="hidden" name="id" id="id" value="<%= id %>"><br>
-			<%
-		}
-	%>	
+		<label for="id">ID :</label><input class="form-control" type="number" name="id" id="id" value="<%= request.getParameter("id") %>"><br>	
 		<label for="nom">Nouveau nom :</label><input class="form-control" type="text" name="nom" id="nom" value="${errorNom}"><br>
 		<label for="prenom">Nouveau prenom :</label><input class="form-control" type="text" name="prenom" id="prenom" value="${errorPrenom}"><br>
 		<label for="email">Nouvel email :</label><input class="form-control" type="text" name="email" id="email" value="${errorEmail}"><br>

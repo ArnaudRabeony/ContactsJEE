@@ -42,16 +42,13 @@ public class UpdateServlet extends HttpServlet {
 		
 		nom = request.getParameter("nom");
 		prenom = request.getParameter("prenom");
-		id = Integer.valueOf(request.getParameter("id"));
+		id = request.getParameter("id").isEmpty() ? 0 : Integer.valueOf(request.getParameter("id"));
 		email = request.getParameter("email");
 		
 		if(id!=0 && !nom.isEmpty() && !prenom.isEmpty() && !email.isEmpty())
 		{
 			ContactService cs = new ContactService();
 		}
-		
-		response.sendRedirect("index.jsp");
-		
 		
 		if(id!=0 && nom!=null && prenom!=null && email!=null)
 		{
@@ -61,20 +58,31 @@ public class UpdateServlet extends HttpServlet {
 				
 				if(cs.contactExists(id))
 				{
-					cs.updateContact(id, nom, prenom, email);
-					response.sendRedirect("index.jsp");
+					if(!cs.contactExists(nom, prenom))
+					{
+						cs.updateContact(id, nom, prenom, email);
+						response.sendRedirect("index.jsp");
+					}
+					else
+					{
+						request.setAttribute("errorId", id);
+						request.setAttribute("errorMessage", "Le contact existe déjà !");
+						request.setAttribute("errorType", "contactAlreadyExists");
+						request.getRequestDispatcher("updateContact.jsp").forward(request,response);
+					}
+					
 				}
 				else
 				{
 					request.setAttribute("errorId", id);
-					request.setAttribute("errorMessage", "Le contact n'existe déjà !");
+					request.setAttribute("errorMessage", "Le contact n'existe pas !");
 					request.setAttribute("errorType", "contactDoesnotExists");
 					request.getRequestDispatcher("updateContact.jsp").forward(request,response);
 				}
 			}
 			else
 			{
-				request.setAttribute("errorIdm", id);
+				request.setAttribute("errorId", id);
 				request.setAttribute("errorNom", nom);
 				request.setAttribute("errorPrenom", prenom);
 				request.setAttribute("errorEmail", email);

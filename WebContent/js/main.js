@@ -16,6 +16,8 @@ $(function()
 				$("#nom, #password").css("border-color","#a94442").css("box-shadow","0px 0px 10px #a94442");
 			else if(errorType == "noRecord" || errorType=="searchEmptyField")
 				$("#value").css("border-color","#a94442").css("box-shadow","0px 0px 10px #a94442");
+			else if(errorType == "contactAlreadyExists")
+				$("#nom, #prenom").css("border-color","#a94442").css("box-shadow","0px 0px 10px #a94442");
 			
 			$("#nom, #prenom, #email, #password,#id").focus(function(e)
 			{

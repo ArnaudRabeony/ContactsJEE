@@ -9,7 +9,8 @@ public class Contact {
 	private String prenom;
 	private String email;
 	
-	private ArrayList<Telephone> telephoneListe;
+	private ArrayList<Telephone> telephonesListe;
+	private ArrayList<Groupe> groupesListe;
 	private Adresse adresse;
 	
 	public Contact(int id, String nom, String prenom, String email) {
@@ -60,12 +61,20 @@ public class Contact {
 		this.email = email;
 	}
 
-	public ArrayList<Telephone> getTelephoneListe() {
-		return telephoneListe;
+	public ArrayList<Telephone> getTelephonesListe() {
+		return telephonesListe;
 	}
 
-	public void setTelephoneListe(ArrayList<Telephone> telephoneListe) {
-		this.telephoneListe = telephoneListe;
+	public void setTelephonesListe(ArrayList<Telephone> telephonesListe) {
+		this.telephonesListe = telephonesListe;
+	}
+	
+	public ArrayList<Groupe> getGroupesListe() {
+		return groupesListe;
+	}
+
+	public void setGroupesListe(ArrayList<Groupe> groupesListe) {
+		this.groupesListe = groupesListe;
 	}
 
 	public Adresse getAdresse() {
@@ -78,6 +87,15 @@ public class Contact {
 	
 	public void addTelephone(Telephone t)
 	{
-		this.telephoneListe.add(t);
+		this.telephonesListe.add(t);
+	}
+	
+	public void addGroupe(Groupe g)
+	{
+		this.groupesListe.add(g);
+	}
+
+	public void removeTelephone(String numero) {
+		this.telephonesListe.remove(numero);
 	}
 }

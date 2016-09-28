@@ -36,4 +36,9 @@ public class ContactService {
 	{
 		return cd.contactExists(id);
 	}
+
+	public Contact getContactOwnerByNumber(String numero)
+	{
+		return cd.getContactOwnerByNumber(numero);
+	}
 }

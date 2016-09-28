@@ -7,7 +7,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import Models.Contact;
+import Models.Groupe;
 import Models.Telephone;
+import ServiceEntities.ContactService;
 
 public class TelephoneDAO 
 {
@@ -26,11 +28,11 @@ public class TelephoneDAO
 		return GlobalConnexion.getConnection();
 	}
 	
-	public Telephone createTelephone(String type, String numero, Contact contact)
+	public Telephone createTelephone(String type, String numero, Contact contactOwner)
 	{
 		Telephone t = null;
 		
-		System.out.println("Creation du tel : "+type+" | "+numero+" idContact "+contact.getId());
+		System.out.println("Creation du tel : "+type+" | "+numero+" idContact "+contactOwner.getId());
 		
 		try
 		{		
@@ -41,12 +43,13 @@ public class TelephoneDAO
 		ps = con.prepareStatement(req);
 		ps.setString(1, type);
 		ps.setString(2, numero);
-		ps.setInt(3, contact.getId());
+		ps.setInt(3, contactOwner.getId());
 		
 		System.out.println(ps);
 		ps.execute();
 		
-		t = new Telephone(type, numero, contact);
+		t = new Telephone(type, numero);
+		contactOwner.addTelephone(t);
 		}
 		catch(SQLException e)
 		{
@@ -84,6 +87,11 @@ public class TelephoneDAO
 		ps.setString(1, numero);
 		
 		System.out.println(ps);
+		
+		ContactService cs = new ContactService();
+		Contact owner = cs.getContactOwnerByNumber(numero);
+		owner.removeTelephone(numero);
+		
 		ps.execute();
 		}
 		catch(SQLException e)

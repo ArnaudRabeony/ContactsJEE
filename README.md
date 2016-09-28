@@ -9,4 +9,7 @@ Projet Programmation Web MIAGE
 * Compte administrateur
 * Gérer les groupes
 
+* Recherche groupes
+
+
 

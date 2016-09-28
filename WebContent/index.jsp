@@ -36,8 +36,10 @@
 	<div class="col-md-4 col-sm-4">
 		<h3><small>Liste des groupes </small></h3><br>
 		<input class="form-control" type="text" style="width:45%" id="searchContact"><br>
+		 
+	<div class="groupPanel panel-group">
+
 <!-- 	foreach group g => g.getName() + getNbContactByGroup()	 -->
-		 <div class="groupPanel panel-group">
 		    <div class="panel panel-default">
 		      <div data-toggle="collapse" data-target="#collapse1" class="panel-heading">
 		        <h4 class="panel-title">
@@ -56,12 +58,27 @@
 		        </ul>
 		      </div>
 		    </div>
-		  </div>
+		    <div class="panel panel-default">
+		      <div data-toggle="collapse" data-target="#collapse2" class="panel-heading">
+		        <h4 class="panel-title">
+		          Amis
+		          <span style="float:right"><%= contacts.size() %></span>
+		        </h4>
+		      </div>
+		      <div id="collapse2" class="panel-collapse collapse">
+		        <ul class="list-group">
+		         	<li class="list-group-item contactItem">bb</li>
+		         	<li class="list-group-item contactItem">aa</li>
+		         	<li class="list-group-item contactItem">zez</li>
+		        </ul>
+		      </div>
+		    </div>
 <!-- 	 -->  
+		  </div>
 	</div>
 	
 	<div id="cardContainer" class="col-md-4 col-sm-4" >
-		<div class="card">
+		<div class="card" data-contactid="contact.getId()" href="updateContact.jsp">
 		  <img src="images/img_avatar.png" alt="Avatar" style="width:100%">
 		  <div class="container">
 		    <h4><b id="cardContactName"></b></h4> 

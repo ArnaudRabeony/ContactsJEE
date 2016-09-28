@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import Models.Contact;
+import ServiceEntities.ContactService;
 
 public class ContactDAO {
 
@@ -315,5 +316,89 @@ public class ContactDAO {
 		}	
 
 		return exists;
+	}
+
+	public Contact getContactById(int id)
+	{
+		Contact c = null;
+		
+		try
+		{
+			con = this.getConnection();
+			String req = "select * from contact where idContact=?";
+	
+			ps = con.prepareStatement(req);;
+			
+			ps.setInt(1, id);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			if(rs.next())
+			{
+				c = new Contact(rs.getString("nom"), rs.getString("prenom"), rs.getString("email"));
+				c.setId(rs.getInt("idContact"));
+			}
+		}
+		catch(SQLException e)
+		{
+			System.out.println(e.getMessage());
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
+		finally
+		{
+			try {
+				if(ps != null) ps.close();
+				if(con != null) con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}	
+		
+		return c;
+	}
+	
+	public Contact getContactOwnerByNumber(String numero)
+	{
+		Contact owner = null;
+		int id;
+		
+		try
+		{
+			con = this.getConnection();
+			String req = "select idContact from telephone where numero=?";
+	
+			ps = con.prepareStatement(req);;
+			
+			ps.setString(1, numero);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			if(rs.next())
+				owner = getContactById(rs.getInt("idContact"));
+		}
+		catch(SQLException e)
+		{
+			System.out.println(e.getMessage());
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
+		finally
+		{
+			try {
+				if(ps != null) ps.close();
+				if(con != null) con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return owner;
 	}
 }

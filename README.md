@@ -11,5 +11,7 @@ Projet Programmation Web MIAGE
 
 * Recherche groupes
 
+* Supprimer contact + telephones
+* Lier téléphone à Contact (on create)
 
 

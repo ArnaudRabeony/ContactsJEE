@@ -2,10 +2,10 @@
 -- version 4.5.4.1deb2ubuntu2
 -- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Generation Time: Sep 28, 2016 at 12:42 AM
--- Server version: 5.7.12-0ubuntu1.1
--- PHP Version: 7.0.8-0ubuntu0.16.04.2
+-- Client :  localhost
+-- Généré le :  Ven 30 Septembre 2016 à 07:12
+-- Version du serveur :  5.7.15-0ubuntu0.16.04.1
+-- Version de PHP :  7.0.8-0ubuntu0.16.04.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,13 +17,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `pweb`
+-- Base de données :  `pweb`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `adresse`
+-- Structure de la table `adresse`
 --
 
 CREATE TABLE `adresse` (
@@ -31,35 +31,47 @@ CREATE TABLE `adresse` (
   `rue` varchar(60) NOT NULL,
   `ville` varchar(30) NOT NULL,
   `codePostal` varchar(10) NOT NULL,
-  `pays` varchar(30) NOT NULL
+  `pays` varchar(30) NOT NULL,
+  `idContact` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Contenu de la table `adresse`
+--
+
+INSERT INTO `adresse` (`idAdresse`, `rue`, `ville`, `codePostal`, `pays`, `idContact`) VALUES
+(1, 'azeaze azrazr', 'aze', 'zaar', 'eaze', 0),
+(2, 'a a', 'a', 'a', 'a', 0);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `contact`
+-- Structure de la table `contact`
 --
 
 CREATE TABLE `contact` (
-  `id` int(11) NOT NULL,
+  `idContact` int(11) NOT NULL,
   `nom` varchar(20) NOT NULL,
   `prenom` varchar(20) NOT NULL,
   `email` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `contact`
+-- Contenu de la table `contact`
 --
 
-INSERT INTO `contact` (`id`, `nom`, `prenom`, `email`) VALUES
-(2, 'a', 'aa', 'aaa'),
+INSERT INTO `contact` (`idContact`, `nom`, `prenom`, `email`) VALUES
+(2, 'nom2', 'prenom2', 'email2'),
 (3, 'aze', 'azeraz', 'azae'),
-(4, 'aze', 'azra', 'aazeze');
+(4, 'aze', 'azra', 'aazeze'),
+(5, 'testNomm', 'testPrenomm', 'testEmailll'),
+(6, 'Fring', 'Gustavo', 'gustavo@g.c'),
+(9, 'ok', 'aze', 'zar');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `contacts`
+-- Structure de la table `contacts`
 --
 
 CREATE TABLE `contacts` (
@@ -70,7 +82,7 @@ CREATE TABLE `contacts` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `contacts`
+-- Contenu de la table `contacts`
 --
 
 INSERT INTO `contacts` (`ID_CONTACT`, `FIRSTNAME`, `LASTNAME`, `EMAIL`) VALUES
@@ -79,7 +91,18 @@ INSERT INTO `contacts` (`ID_CONTACT`, `FIRSTNAME`, `LASTNAME`, `EMAIL`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `telephone`
+-- Structure de la table `groupe`
+--
+
+CREATE TABLE `groupe` (
+  `idGroupe` int(11) NOT NULL,
+  `nom` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `telephone`
 --
 
 CREATE TABLE `telephone` (
@@ -90,58 +113,77 @@ CREATE TABLE `telephone` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Indexes for dumped tables
+-- Contenu de la table `telephone`
+--
+
+INSERT INTO `telephone` (`idTelephone`, `type`, `numero`, `idContact`) VALUES
+(3, 'pro', 'a', 0);
+
+--
+-- Index pour les tables exportées
 --
 
 --
--- Indexes for table `adresse`
+-- Index pour la table `adresse`
 --
 ALTER TABLE `adresse`
   ADD PRIMARY KEY (`idAdresse`);
 
 --
--- Indexes for table `contact`
+-- Index pour la table `contact`
 --
 ALTER TABLE `contact`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `id` (`id`);
+  ADD PRIMARY KEY (`idContact`),
+  ADD UNIQUE KEY `id` (`idContact`);
 
 --
--- Indexes for table `contacts`
+-- Index pour la table `contacts`
 --
 ALTER TABLE `contacts`
   ADD PRIMARY KEY (`ID_CONTACT`);
 
 --
--- Indexes for table `telephone`
+-- Index pour la table `groupe`
+--
+ALTER TABLE `groupe`
+  ADD PRIMARY KEY (`idGroupe`);
+
+--
+-- Index pour la table `telephone`
 --
 ALTER TABLE `telephone`
-  ADD PRIMARY KEY (`idTelephone`);
+  ADD PRIMARY KEY (`idTelephone`),
+  ADD KEY `fk_contact_id` (`idContact`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT pour les tables exportées
 --
 
 --
--- AUTO_INCREMENT for table `adresse`
+-- AUTO_INCREMENT pour la table `adresse`
 --
 ALTER TABLE `adresse`
-  MODIFY `idAdresse` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idAdresse` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
--- AUTO_INCREMENT for table `contact`
+-- AUTO_INCREMENT pour la table `contact`
 --
 ALTER TABLE `contact`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `idContact` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
--- AUTO_INCREMENT for table `contacts`
+-- AUTO_INCREMENT pour la table `contacts`
 --
 ALTER TABLE `contacts`
   MODIFY `ID_CONTACT` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
--- AUTO_INCREMENT for table `telephone`
+-- AUTO_INCREMENT pour la table `groupe`
+--
+ALTER TABLE `groupe`
+  MODIFY `idGroupe` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT pour la table `telephone`
 --
 ALTER TABLE `telephone`
-  MODIFY `idTelephone` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idTelephone` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

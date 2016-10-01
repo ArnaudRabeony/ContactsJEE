@@ -1,7 +1,6 @@
 package DAOs;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,40 +14,21 @@ public class ContactDAO {
 	ResultSet rs = null;
 	Connection con = null;
 	
-	String driver="com.mysql.jdbc.Driver";
-	String url = "jdbc:mysql://localhost:3306/pweb?autoReconnect=true&useSSL=false";
-	String uid = "root";
-	String passwd = "root";
-
 	public ContactDAO()
 	{
-		con = this.getConnection();
+		con = GlobalConnexion.getConnection();
 	}
 	
 	public Connection getConnection()
 	{
-		try
-		{
-		Class.forName(driver);
-		con = DriverManager.getConnection(url, uid, passwd);
-		}
-		catch(ClassNotFoundException e)
-		{
-			System.out.println(e.getMessage());
-		}
-		catch(SQLException e)
-		{
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-		}
-		
-		return con;
+		return GlobalConnexion.getConnection();
 	}
 	
-	public void createContact(String nom,String prenom,String email)
+	public Contact createContact(String nom,String prenom,String email)
 	{
 		System.out.println("Creation du compte : "+nom+" | "+prenom+" | "+email);
-		
+		Contact c = null;
+
 		try
 		{		
 		con = this.getConnection();
@@ -61,6 +41,7 @@ public class ContactDAO {
 		ps.setString(3, email);
 		
 		ps.execute();
+		c = new Contact(nom, prenom, email);
 		}
 		catch(SQLException e)
 		{
@@ -80,27 +61,23 @@ public class ContactDAO {
 				e.printStackTrace();
 			}
 		}
-				
+		return c;	
 	}
 	
-	public void deleteContact(String condition, Object value)
+	public void updateContact(int idContact, String nom,String prenom,String email)
 	{
-		value = String.valueOf(value);
-		String val = (String)value;
-		
-		System.out.println("Suppression : "+condition+"="+val);
+		System.out.println("MAJ du compte : "+idContact+"\n"+nom+" "+prenom+"\n"+email);
 		
 		try
 		{
 		con = this.getConnection();
-		String req = "delete from contact where "+condition+"=?";
-	
-			ps = con.prepareStatement(req);;
-			
-			if(condition.equals("id"))
-				ps.setInt(1, Integer.parseInt(val));
-			else
-				ps.setString(1, val);
+		String req = "update contact set nom=?,prenom=?,email=? where idContact=?";
+
+		ps = con.prepareStatement(req);;
+		ps.setString(1, nom);
+		ps.setString(2, prenom);
+		ps.setString(3, email);
+		ps.setInt(4, idContact);
 		
 		System.out.println(ps);
 		ps.execute();
@@ -125,68 +102,25 @@ public class ContactDAO {
 		}
 	}
 	
-	public void updateContact(int id, String nom,String prenom,String email)
+	public Contact searchContact(int idContact)
 	{
-		System.out.println("MAJ du compte : "+id+"\n"+nom+" "+prenom+"\n"+email);
-		
-		try
-		{
-		con = this.getConnection();
-		String req = "update contact set nom=?,prenom=?,email=? where id=?";
-
-		ps = con.prepareStatement(req);;
-		ps.setString(1, nom);
-		ps.setString(2, prenom);
-		ps.setString(3, email);
-		ps.setInt(4, id);
-		
-		ps.execute();
-		}
-		catch(SQLException e)
-		{
-			System.out.println(e.getMessage());
-		}
-		catch(Exception e)
-		{
-			System.out.println(e.getMessage());
-		}
-		finally
-		{
-			try {
-				if(ps != null) ps.close();
-				if(con != null) con.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
-	
-	public Contact searchContact(String condition, Object value)
-	{
-		value = String.valueOf(value);
-		System.out.println(value);
-		String val = (String)value;
-		System.out.println("Recherche du compte : "+condition+"="+val);
+		System.out.println("Recherche du compte : "+idContact);
 		Contact contact = null;
 		
 		try
 		{
 			con = this.getConnection();
-			String req = "select * from contact where "+condition+"=?";
+			String req = "select * from contact where idContact=?";
 	
 			ps = con.prepareStatement(req);;
 			
-			if(condition.equals("id"))
-				ps.setInt(1, Integer.parseInt(val));
-			else
-				ps.setString(1, val);
+			ps.setInt(1, idContact);
 			
 			System.out.println(ps);
 			ResultSet rs = ps.executeQuery();
 			rs.next();
 			
-			int id = rs.getInt("id");
+			int id = rs.getInt("idContact");
 			String nom = rs.getString("nom");
 			String prenom = rs.getString("prenom");
 			String email = rs.getString("email");
@@ -228,7 +162,7 @@ public class ContactDAO {
 			
 			while(rs.next())
 			{
-				int id = rs.getInt("id");
+				int id = rs.getInt("idContact");
 				String nom = rs.getString("nom");
 				String prenom = rs.getString("prenom");
 				String email = rs.getString("email");
@@ -298,17 +232,17 @@ public class ContactDAO {
 		return exists;
 	}
 	
-	public boolean contactExists(int id)
+	public boolean contactExists(int idContact)
 	{
 		boolean exists = false;
 		try
 		{
 			con = this.getConnection();
-			String req = "select * from contact where id=?";
+			String req = "select * from contact where idContact=?";
 	
 			ps = con.prepareStatement(req);;
 			
-			ps.setInt(1, id);
+			ps.setInt(1, idContact);
 			
 			ResultSet rs = ps.executeQuery();
 			
@@ -336,5 +270,161 @@ public class ContactDAO {
 
 		return exists;
 	}
+
+	public Contact getContactById(int idContact)
+	{
+		Contact c = null;
+		
+		try
+		{
+			con = this.getConnection();
+			String req = "select * from contact where idContact=?";
 	
+			ps = con.prepareStatement(req);;
+			
+			ps.setInt(1, idContact);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			if(rs.next())
+			{
+				c = new Contact(rs.getString("nom"), rs.getString("prenom"), rs.getString("email"));
+				c.setId(rs.getInt("idContact"));
+			}
+		}
+		catch(SQLException e)
+		{
+			System.out.println(e.getMessage());
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
+		finally
+		{
+			try {
+				if(ps != null) ps.close();
+				if(con != null) con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}	
+		return c;
+	}
+	
+	public Contact getContactOwnerByNumber(String numero)
+	{
+		Contact owner = null;
+		try
+		{
+			con = this.getConnection();
+			String req = "select idContact from telephone where numero=?";
+	
+			ps = con.prepareStatement(req);;
+			
+			ps.setString(1, numero);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			if(rs.next())
+				owner = getContactById(rs.getInt("idContact"));
+		}
+		catch(SQLException e)
+		{
+			System.out.println(e.getMessage());
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
+		finally
+		{
+			try {
+				if(ps != null) ps.close();
+				if(con != null) con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return owner;
+	}
+
+	public boolean deleteContact(int idContact) 
+	{
+		int changes = 0;
+		try
+		{
+			con = this.getConnection();
+			String req = "delete from contact where idContact=?";
+	
+			ps = con.prepareStatement(req);;
+			
+			ps.setInt(1, idContact);
+			
+			changes = ps.executeUpdate();
+		}
+		catch(SQLException e)
+		{
+			System.out.println(e.getMessage());
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
+		finally
+		{
+			try {
+				if(ps != null) ps.close();
+				if(con != null) con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}	
+		return changes>0;
+	}
+
+	
+	public int getIdByContact(Contact contact) {
+
+		int idContact = 0;
+		
+		try
+		{
+			con = this.getConnection();
+			String req = "select idContact from contact where nom=? and prenom=? and email=?";
+	
+			ps = con.prepareStatement(req);;
+			
+			ps.setString(1, contact.getNom());
+			ps.setString(2, contact.getPrenom());
+			ps.setString(3, contact.getEmail());
+			
+			ResultSet rs = ps.executeQuery();
+			
+			if(rs.next())
+				idContact = rs.getInt("idContact");
+		}
+		catch(SQLException e)
+		{
+			System.out.println(e.getMessage());
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
+		finally
+		{
+			try {
+				if(ps != null) ps.close();
+				if(con != null) con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}	
+		return idContact;
+	}
 }

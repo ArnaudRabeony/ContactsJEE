@@ -1,6 +1,6 @@
 package ServiceEntities;
 
-import java.sql.SQLException;
+import java.util.ArrayList;
 
 import DAOs.AdresseDAO;
 import Models.Adresse;
@@ -9,14 +9,14 @@ public class AdresseService {
 	
 	AdresseDAO ad = new AdresseDAO();
 
-	public Adresse createTelephone(String rue, String ville, String codePostal, String pays)
+	public Adresse createAdresse(String rue, String ville, String codePostal, String pays, int idContact)
 	{
-		return ad.createTelephone(rue, ville, codePostal, pays);
+		return ad.createAdresse(rue, ville, codePostal, pays,idContact);
 	}
 	
-	public void deleteAdresse(int idAdresse)
+	public boolean deleteAdresse(int idAdresse)
 	{
-		ad.deleteAdresse(idAdresse);
+		return ad.deleteAdresse(idAdresse);
 	}
 	
 	public void updateAdresse(int idAdresse, String newRue, String newVille, String newCodePostal, String newPays)
@@ -27,5 +27,15 @@ public class AdresseService {
 	public Adresse getAdresseById(int idAdresse)
 	{
 		return ad.getAdresseById(idAdresse);
+	}
+
+	public ArrayList<Adresse> getAdressesByContactId(int idContact)
+	{
+		return ad.getAdressesByContactId(idContact);
+	}
+
+	public boolean deleteAdressesByContactId(int idContact)
+	{
+		return ad.deleteAdressesByContactId(idContact);
 	}
 }

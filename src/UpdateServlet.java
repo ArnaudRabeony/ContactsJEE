@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import Models.Contact;
 import ServiceEntities.ContactService;
 
 /**
@@ -38,60 +39,74 @@ public class UpdateServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String nom,prenom,email;
-		int id;
+		int idContact;
 		
 		nom = request.getParameter("nom");
 		prenom = request.getParameter("prenom");
-		id = Integer.valueOf(request.getParameter("id"));
+		idContact = request.getParameter("idContact").isEmpty() ? 0 : Integer.valueOf(request.getParameter("idContact"));
 		email = request.getParameter("email");
 		
-		if(id!=0 && !nom.isEmpty() && !prenom.isEmpty() && !email.isEmpty())
+		if(idContact!=0 && !nom.isEmpty() && !prenom.isEmpty() && !email.isEmpty())
 		{
 			ContactService cs = new ContactService();
 		}
 		
-		response.sendRedirect("index.jsp");
-		
-		
-		if(id!=0 && nom!=null && prenom!=null && email!=null)
+		if(idContact!=0 && nom!=null && prenom!=null && email!=null)
 		{
 			if(!nom.isEmpty() && !prenom.isEmpty() && !email.isEmpty())
 			{
 				ContactService cs = new ContactService();
 				
-				if(cs.contactExists(id))
+				if(cs.contactExists(idContact))
 				{
-					cs.updateContact(id, nom, prenom, email);
-					response.sendRedirect("index.jsp");
+					Contact c = cs.getContactById(idContact);
+					
+					System.out.println(c.getNom()+" "+nom);
+					System.out.println(c.getPrenom()+" "+prenom);
+					boolean nameHasChanged = !c.getNom().equals(nom) || !c.getPrenom().equals(prenom) || (!c.getNom().equals(nom) && !c.getPrenom().equals(prenom));
+					System.out.println(nameHasChanged);
+					if((nameHasChanged && !cs.contactExists(nom, prenom)) || !nameHasChanged)
+					{
+						cs.updateContact(idContact, nom, prenom, email);
+						response.sendRedirect("searchContact.jsp");
+					}
+					else
+					{
+						request.setAttribute("idResult", idContact);
+						request.setAttribute("errorMessage", "Le contact existe déjà !");
+						request.setAttribute("errorType", "contactAlreadyExists");
+						request.getRequestDispatcher("searchContact.jsp").forward(request,response);
+					}
+					
 				}
 				else
 				{
-					request.setAttribute("errorId", id);
-					request.setAttribute("errorMessage", "Le contact n'existe déjà !");
+					request.setAttribute("idResult", idContact);
+					request.setAttribute("errorMessage", "Le contact n'existe pas !");
 					request.setAttribute("errorType", "contactDoesnotExists");
-					request.getRequestDispatcher("updateContact.jsp").forward(request,response);
+					request.getRequestDispatcher("searchContact.jsp").forward(request,response);
 				}
 			}
 			else
 			{
-				request.setAttribute("errorIdm", id);
-				request.setAttribute("errorNom", nom);
-				request.setAttribute("errorPrenom", prenom);
-				request.setAttribute("errorEmail", email);
+				request.setAttribute("idResult", idContact);
+				request.setAttribute("nomResult", nom);
+				request.setAttribute("prenomResult", prenom);
+				request.setAttribute("emailResult", email);
 				request.setAttribute("errorMessage", "Veuillez remplir tous les champs ! ");
 				request.setAttribute("errorType", "updateEmptyField");
-				request.getRequestDispatcher("updateContact.jsp").forward(request,response);
+				request.getRequestDispatcher("searchContact.jsp").forward(request,response);
 			}
 		}
 		else
 		{
-			request.setAttribute("errorIdm", id);
-			request.setAttribute("errorNom", nom);
-			request.setAttribute("errorPrenom", prenom);
-			request.setAttribute("errorEmail", email);
+			request.setAttribute("idResult", idContact);
+			request.setAttribute("nomResult", nom);
+			request.setAttribute("prenomResult", prenom);
+			request.setAttribute("emailResult", email);
 			request.setAttribute("errorMessage", "Veuillez remplir tous les champs ! ");
 			request.setAttribute("errorType", "updateEmptyField");
-			request.getRequestDispatcher("updateContact.jsp").forward(request,response);
+			request.getRequestDispatcher("searchContact.jsp").forward(request,response);
 		}
 	}
 

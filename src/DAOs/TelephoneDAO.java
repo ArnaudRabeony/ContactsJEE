@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import Models.Contact;
-import Models.Groupe;
 import Models.Telephone;
 import ServiceEntities.ContactService;
 
@@ -28,11 +27,11 @@ public class TelephoneDAO
 		return GlobalConnexion.getConnection();
 	}
 	
-	public Telephone createTelephone(String type, String numero, Contact contactOwner)
+	public Telephone createTelephone(String type, String numero, int idContact)
 	{
 		Telephone t = null;
 		
-		System.out.println("Creation du tel : "+type+" | "+numero+" idContact "+contactOwner.getId());
+		System.out.println("Creation du tel : "+type+" | "+numero+" idContact "+idContact);
 		
 		try
 		{		
@@ -43,13 +42,12 @@ public class TelephoneDAO
 		ps = con.prepareStatement(req);
 		ps.setString(1, type);
 		ps.setString(2, numero);
-		ps.setInt(3, contactOwner.getId());
+		ps.setInt(3, idContact);
 		
 		System.out.println(ps);
 		ps.execute();
 		
 		t = new Telephone(type, numero);
-		contactOwner.addTelephone(t);
 		}
 		catch(SQLException e)
 		{
@@ -151,27 +149,22 @@ public class TelephoneDAO
 		}
 	}
 	
-	public ArrayList<Telephone> getTelephonesByContact(Contact contact)
+	public ArrayList<Telephone> getTelephonesByContactId(int idContact)
 	{
 		ArrayList<Telephone> list = new ArrayList<Telephone>();
 		
 		try
 		{
 			con = this.getConnection();
-			String req = "select type,numero from telephone where idContact=?";
-			
+			String req = "select * from telephone where idContact=?";
+	
 			ps = con.prepareStatement(req);
-			ps.setInt(1, contact.getId());
-
+			ps.setInt(1, idContact);
+			
 			ResultSet rs = ps.executeQuery();
 			
-			while(rs.next())
-			{
-				String type = rs.getString("type");
-				String numero = rs.getString("numero");
-				
-				list.add(new Telephone(type, numero, contact));
-			}
+			while(rs.next())			
+				list.add(new Telephone(rs.getString("type"), rs.getString("numero")));
 		}
 		catch(SQLException e)
 		{
@@ -191,8 +184,9 @@ public class TelephoneDAO
 				e.printStackTrace();
 			}
 		}	
+
 		return list;
-	}
+	}	
 	
 	public String getNumberById(int id)
 	{
@@ -271,4 +265,40 @@ public class TelephoneDAO
 
 		return id;
 	}
+
+	public boolean deleteTelephoneByContactId(int idContact) 
+	{
+		int changes = 0;
+		try
+		{
+			con = this.getConnection();
+			String req = "delete from telephone where idContact=?";
+	
+			ps = con.prepareStatement(req);;
+			
+			ps.setInt(1, idContact);
+			
+			changes = ps.executeUpdate();
+		}
+		catch(SQLException e)
+		{
+			System.out.println(e.getMessage());
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
+		finally
+		{
+			try {
+				if(ps != null) ps.close();
+				if(con != null) con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}	
+		return changes>0;
+	}
+
 }

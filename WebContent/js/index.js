@@ -12,24 +12,28 @@ $(function()
 	
 	$("#searchContact").keyup(function()
 	{
-		var value = $("#searchContact").val();
+		var value = $("#searchContact").val().toLowerCase();
 //		alert("search "+value);
 		
 		if(value!="")
 		{
 			$(".contactItem").hide().each(function()
 			{
-				if($(this).text().indexOf(value) != -1)
+				var self = $(this);
+				var s = self.text().toLowerCase();
+				console.log("recherche "+value+" dans :"+ s);
+				if(s.indexOf(value) != -1)
 				{
-					$(this).parent().parent().addClass("in");
-					$(this).show();
+					console.log("trouve");
+					self.parent().parent().addClass("in");
+					self.show();
 				}
 			});
 			
 			var elements = $(".contactItem:visible").length;
 //			alert("elements affichés "+elements);
 			
-			elements == 0 ? $(".groupPanel").hide() : $(".groupPanel").show();
+			elements == 0 ? $(".groupPanel").hide() : $(".contactItem").show();
 		}
 		else
 		{
@@ -38,16 +42,18 @@ $(function()
 		}
 	});
 	
-	$("body").on("click","#displayContact",function()
+	$("body").on("click","panel",function()
 	{
-		$('#cardContainer').show();
-		$("#cardContactName").text($(this).parent().parent().text());
+		$(".contactItem").show();
 	});
 	
-	$("body").on("click",".card",function()
+	$("body").on("click",".displayContact",function()
 	{
-		var id=1;
-		window.location.href = "updateContact.jsp?id="+id;
+		var group = $(this).parent().parent().parent().parent().prev().attr("data-group");
+		$("#indexFormContainer").hide();
+		$("#cardContainer").show();
+		$("#cardContactName").text($(this).parent().parent().text());
+		$("#groupeLabel").text(group);
 	});
 	
 });

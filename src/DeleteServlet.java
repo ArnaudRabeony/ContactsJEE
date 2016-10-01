@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import ServiceEntities.AdresseService;
 import ServiceEntities.ContactService;
+import ServiceEntities.TelephoneService;
 
 /**
  * Servlet implementation class DeleteContact
@@ -37,40 +39,30 @@ public class DeleteServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String condition = request.getParameter("condition");
+		int idContact = request.getParameter("selectedId").isEmpty() ? -1 : Integer.valueOf(request.getParameter("selectedId"));
 		
-		Object value;
-		boolean notEmptyOrNull = true;
-		
-		if(condition.equals("id"))
-		{
-			value = request.getParameter("value").isEmpty() ? 0 : new Integer(request.getParameter("value"));
-			notEmptyOrNull = (Integer)value!=0;
-		}
-		else
-		{
-			value = request.getParameter("value");
-			notEmptyOrNull = !((String)value).isEmpty();
-		}
-			
-		boolean exists = false;
-		
-		if(notEmptyOrNull)
+		if(idContact != -1)
 		{
 			ContactService cs = new ContactService();
-			if(condition.equals("id"))
-				exists = cs.contactExists((int)value);
+			boolean exists = cs.contactExists(idContact);
 
 			//TODO : tester existence condition dynamique
 			
 			if(exists)
 			{
-				cs.deleteContact(condition, value);
+				if(cs.deleteContact(idContact))
+				{
+					AdresseService as = new AdresseService();
+					as.deleteAdressesByContactId(idContact);
+					
+					TelephoneService ts = new TelephoneService();
+					ts.deleteTelephoneByContactId(idContact);
+				}
+					
 				response.sendRedirect("index.jsp");
 			}
 			else
 			{
-				request.setAttribute("errorValue", value);
 				request.setAttribute("errorMessage", "Contact à supprimer inexistant !");
 				request.setAttribute("errorType", "noRecord");
 				request.getRequestDispatcher("deleteContact.jsp").forward(request, response);
@@ -78,7 +70,6 @@ public class DeleteServlet extends HttpServlet {
 		}
 		else
 		{
-			request.setAttribute("errorValue", value);
 			request.setAttribute("errorMessage", "Veuillez remplir tous les champs ! ");
 			request.setAttribute("errorType", "deleteEmptyField");
 			request.getRequestDispatcher("deleteContact.jsp").forward(request, response);

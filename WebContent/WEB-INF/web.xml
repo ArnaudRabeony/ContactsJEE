@@ -64,4 +64,34 @@
     <servlet-name>LogoutServlet</servlet-name>
     <url-pattern>/Logout</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>CreateAddressServlet</display-name>
+    <servlet-name>CreateAddressServlet</servlet-name>
+    <servlet-class>CreateAddressServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CreateAddressServlet</servlet-name>
+    <url-pattern>/CreateAddress</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>CreatePhoneServlet</display-name>
+    <servlet-name>CreatePhoneServlet</servlet-name>
+    <servlet-class>CreatePhoneServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CreatePhoneServlet</servlet-name>
+    <url-pattern>/CreatePhone</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>CreateGroupServlet</display-name>
+    <servlet-name>CreateGroupServlet</servlet-name>
+    <servlet-class>CreateGroupServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CreateGroupServlet</servlet-name>
+    <url-pattern>/CreateGroup</url-pattern>
+  </servlet-mapping>
 </web-app>

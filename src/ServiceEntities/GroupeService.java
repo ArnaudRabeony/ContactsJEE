@@ -15,18 +15,28 @@ public class GroupeService {
 		return gd.createGroupe(nom, contact);
 	}
 	
+	public Groupe createGroupe(String nom)
+	{
+		return gd.createGroupe(nom);
+	}
+	
 	public void deleteTelephone(String nom)
 	{
 		gd.deleteTelephone(nom);
 	}
 	
-	public void updateGroupe(int idGroupe, String newNom)
+	public boolean updateGroupe(int idGroupe, String newNom)
 	{
-		gd.updateGroupe(idGroupe, newNom);
+		return gd.updateGroupe(idGroupe, newNom);
 	}
 	
 	public ArrayList<Contact> getContacts(Contact contact)
 	{
 		return gd.getContacts(contact);
+	}
+	
+	public boolean exists(String nom)
+	{
+		return gd.exists(nom);
 	}
 }

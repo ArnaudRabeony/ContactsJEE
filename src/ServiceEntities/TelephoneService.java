@@ -1,7 +1,5 @@
 package ServiceEntities;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import DAOs.TelephoneDAO;
@@ -12,9 +10,9 @@ public class TelephoneService
 {
 	TelephoneDAO td = new TelephoneDAO();
 	
-	public Telephone createTelephone(String type, String numero, Contact contact)
+	public Telephone createTelephone(String type, String numero, int idContact)
 	{
-		return td.createTelephone(type, numero, contact);
+		return td.createTelephone(type, numero, idContact);
 	}
 	
 	public void deleteTelephone(String numero)
@@ -27,9 +25,9 @@ public class TelephoneService
 		td.updateNumero(idTelephone, newType, newNumero);
 	}
 	
-	public ArrayList<Telephone> getTelephonesByContact(Contact contact)
+	public ArrayList<Telephone> getTelephonesByContactId(int idContact)
 	{
-		return td.getTelephonesByContact(contact);
+		return td.getTelephonesByContactId(idContact);
 	}
 	
 	public String getNumberById(int id)
@@ -40,5 +38,9 @@ public class TelephoneService
 	public int getIdByNumber(String numero)
 	{
 		return td.getIdByNumber(numero);
+	}
+
+	public boolean deleteTelephoneByContactId(int idContact) {
+		return td.deleteTelephoneByContactId(idContact);
 	}
 }

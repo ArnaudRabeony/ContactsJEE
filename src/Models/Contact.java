@@ -1,11 +1,17 @@
 package Models;
 
+import java.util.ArrayList;
+
 public class Contact {
 
-	public int id;
-	public String nom;
-	public String prenom;
-	public String email;
+	private int id;
+	private String nom;
+	private String prenom;
+	private String email;
+	
+	private ArrayList<Telephone> profiles;
+	private ArrayList<Groupe> groupesListe;
+	private Adresse adresse;
 	
 	public Contact(int id, String nom, String prenom, String email) {
 		super();
@@ -53,5 +59,43 @@ public class Contact {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public ArrayList<Telephone> getProfiles() {
+		return profiles;
+	}
+
+	public void setProfiles(ArrayList<Telephone> telephonesListe) {
+		this.profiles = telephonesListe;
+	}
+	
+	public ArrayList<Groupe> getGroupesListe() {
+		return groupesListe;
+	}
+
+	public void setGroupesListe(ArrayList<Groupe> groupesListe) {
+		this.groupesListe = groupesListe;
+	}
+
+	public Adresse getAdresse() {
+		return adresse;
+	}
+
+	public void setAdresse(Adresse adresse) {
+		this.adresse = adresse;
+	}
+	
+	public void addTelephone(Telephone t)
+	{
+		this.profiles.add(t);
+	}
+	
+	public void addGroupe(Groupe g)
+	{
+		this.groupesListe.add(g);
+	}
+
+	public void removeTelephone(String numero) {
+		this.profiles.remove(numero);
 	}
 }

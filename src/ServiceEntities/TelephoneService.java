@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import DAOs.TelephoneDAO;
 import Models.Contact;
+import Models.Groupe;
 import Models.Telephone;
 
 public class TelephoneService 
@@ -15,9 +16,9 @@ public class TelephoneService
 		return td.createTelephone(type, numero, idContact);
 	}
 	
-	public void deleteTelephone(String numero)
+	public void deleteTelephone(int idTelephone)
 	{
-		td.deleteTelephone(numero);
+		td.deleteTelephone(idTelephone);
 	}
 	
 	public void updateNumero(int idTelephone, String newType, String newNumero)
@@ -42,5 +43,14 @@ public class TelephoneService
 
 	public boolean deleteTelephoneByContactId(int idContact) {
 		return td.deleteTelephoneByContactId(idContact);
+	}
+	
+	public ArrayList<Telephone> getTelephones()
+	{
+		return td.getTelephones();
+	}
+
+	public boolean telephoneExists(int idTelephone) {
+		return td.telephoneExists(idTelephone);
 	}
 }

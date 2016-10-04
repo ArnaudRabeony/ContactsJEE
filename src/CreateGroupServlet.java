@@ -7,8 +7,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import Models.Contact;
+import Models.Groupe;
+import ServiceEntities.ContactService;
 import ServiceEntities.GroupeService;
-import ServiceEntities.TelephoneService;
 
 /**
  * Servlet implementation class CreateGroupServlet
@@ -37,13 +39,31 @@ public class CreateGroupServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String groupe;
 		groupe = request.getParameter("nomGroupe")!=null ? request.getParameter("nomGroupe") : "";
-
+		String[] addToGroup = request.getParameterValues("addToGroup");
+		
+		int i=0;
+		do
+		{
+			System.out.println(addToGroup[i++]);
+		}while(i<addToGroup.length);
+		
 		if(groupe!="")
 		{
 			GroupeService gs = new GroupeService();
 			
 			if(!gs.exists(groupe))
-				gs.createGroupe(groupe);
+			{
+				Groupe newGroup = gs.createGroupe(groupe);
+				
+				if(addToGroup!=null && addToGroup.length!=0)
+				{
+					ContactService cs = new ContactService();
+					int idGroupe = gs.getGroupIdByName(newGroup.getNom());
+					
+					for(i=0;i<addToGroup.length;i++)
+						cs.addContactToGroup(Integer.valueOf(addToGroup[i]), idGroupe);
+				}
+			}
 			else
 			{
 				request.setAttribute("errorNom", groupe);

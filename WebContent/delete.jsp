@@ -17,15 +17,15 @@
 		    <h4 class="list-group-item-heading">Contact</h4>
 		    <p class="list-group-item-text">Supprimer un contact existant</p>
 		  </a>
-		  <a href="#" class="list-group-item">
+		  <a href="deleteAddress.jsp" class="list-group-item">
 		    <h4 class="list-group-item-heading">Adresse</h4>
 		    <p class="list-group-item-text">Supprimer une adresse existante</p>
 		  </a>
-		  <a href="#" class="list-group-item">
+		  <a href="deletePhoneNumber.jsp" class="list-group-item">
 		    <h4 class="list-group-item-heading">Numéro de téléphone</h4>
 		    <p class="list-group-item-text">Supprimer un numéro de téléphone existant</p>
 		  </a>
-		  <a href="#" class="list-group-item">
+		  <a href="deleteGroup.jsp" class="list-group-item">
 		    <h4 class="list-group-item-heading">Groupe</h4>
 		    <p class="list-group-item-text">Supprimer un groupe existant</p>
 		  </a>

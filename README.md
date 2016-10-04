@@ -2,9 +2,9 @@
 Projet Programmation Web MIAGE
 
 ## TODO 
-* Compte administrateur
-* Gérer les groupes
-* Suppressions
+* Organiser suppressions par contact
+* Ajouter contact à un groupe
+* Modifications 
 
 ### DONE
 * Créer classes Adresse, Telephone, Groupe
@@ -14,3 +14,4 @@ Projet Programmation Web MIAGE
 * Lier téléphone à Contact (on create)
 * Verification requetes (boolean avec ExecuteUpdate)
 * Carte contact + actions (modifier, supprimer)
+* Suppressions

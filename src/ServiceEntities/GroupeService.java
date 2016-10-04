@@ -20,9 +20,9 @@ public class GroupeService {
 		return gd.createGroupe(nom);
 	}
 	
-	public void deleteTelephone(String nom)
+	public void deleteGroup(int idGroupe)
 	{
-		gd.deleteTelephone(nom);
+		gd.deleteGroup(idGroupe);
 	}
 	
 	public boolean updateGroupe(int idGroupe, String newNom)
@@ -30,13 +30,33 @@ public class GroupeService {
 		return gd.updateGroupe(idGroupe, newNom);
 	}
 	
-	public ArrayList<Contact> getContacts(Contact contact)
+	public ArrayList<Contact> getContacts(int contactId)
 	{
-		return gd.getContacts(contact);
+		return gd.getContacts(contactId);
 	}
 	
 	public boolean exists(String nom)
 	{
 		return gd.exists(nom);
+	}
+	
+	public ArrayList<Groupe> getGroups()
+	{
+		return gd.getGroups();
+	}
+	
+	public String getGroupNameById(int idGroupe)
+	{
+		return gd.getGroupNameById(idGroupe);
+	}
+	
+	public int getGroupIdByName(String name) 
+	{
+		return gd.getGroupIdByName(name);
+	}
+	
+	public boolean groupExists(int idGroupe)
+	{
+		return gd.groupExists(idGroupe);
 	}
 }

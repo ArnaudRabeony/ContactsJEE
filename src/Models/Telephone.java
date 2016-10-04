@@ -5,7 +5,7 @@ public class Telephone {
 	private int id;
 	private String phoneKind;
 	private String number;
-	private Contact contact;
+	private int idContact;
 
 	public Telephone(String phoneKind, String number) {
 		super();
@@ -13,13 +13,21 @@ public class Telephone {
 		this.number = number;
 	}
 	
-	public Telephone(String phoneKind, String number, Contact contact) {
+	public Telephone(String phoneKind, String number, int idContact) {
 		super();
 		this.phoneKind = phoneKind;
 		this.number = number;
-		this.contact = contact;
+		this.idContact = idContact;
 	}
 	
+	public Telephone(int id, String phoneKind, String number, int idContact) {
+		super();
+		this.id = id;
+		this.phoneKind = phoneKind;
+		this.number = number;
+		this.idContact = idContact;
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -39,11 +47,11 @@ public class Telephone {
 		this.number = number;
 	}
 
-	public Contact getContact() {
-		return contact;
+	public int getIdContact() {
+		return idContact;
 	}
 
-	public void setContact(Contact contact) {
-		this.contact = contact;
+	public void setIdContact(int idContact) {
+		this.idContact = idContact;
 	}
 }

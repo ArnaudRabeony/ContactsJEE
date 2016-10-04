@@ -12,6 +12,7 @@ public class Contact {
 	private ArrayList<Telephone> profiles;
 	private ArrayList<Groupe> groupesListe;
 	private Adresse adresse;
+	private int idGroupe;
 	
 	public Contact(int id, String nom, String prenom, String email) {
 		super();
@@ -27,6 +28,25 @@ public class Contact {
 		this.nom = nom;
 		this.prenom = prenom;
 		this.email = email;
+	}
+	
+
+	public Contact(int id, String nom, String prenom, String email, int idGroupe)
+	{
+		super();
+		this.id = id;
+		this.nom = nom;
+		this.prenom = prenom;
+		this.email = email;
+		this.idGroupe = idGroupe;
+	}
+
+	public int getIdGroupe() {
+		return idGroupe;
+	}
+
+	public void setIdGroupe(int idGroupe) {
+		this.idGroupe = idGroupe;
 	}
 
 	public int getId() {

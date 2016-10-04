@@ -113,9 +113,42 @@ public class GroupeDAO {
 		return g;
 	}
 
-	public ArrayList<Contact> getContacts(Contact contact) {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<Contact> getContacts(int groupeId) {
+		ArrayList<Contact> list = new ArrayList<Contact>();
+		try
+		{		
+			con = this.getConnection();
+	
+			String req = "select * from contact where idGroupe=?";
+	
+			ps = con.prepareStatement(req);
+			ps.setInt(1, groupeId);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next())
+				list.add(new Contact(rs.getInt("idContact"), rs.getString("nom"), rs.getString("prenom"), rs.getString("email")));
+		}
+		catch(SQLException e)
+		{
+			System.out.println(e.getMessage());
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
+		finally
+		{
+			try {
+				if(ps != null) ps.close();
+				if(con != null) con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}	
+		
+		return list;
 	}
 
 	public boolean updateGroupe(int idGroupe, String newNom) 
@@ -199,5 +232,191 @@ public class GroupeDAO {
 		}	
 		
 		return exists;
+	}
+
+	public ArrayList<Groupe> getGroups() {
+		
+		ArrayList<Groupe> list = new ArrayList<Groupe>();
+		
+		try
+		{		
+			con = this.getConnection();
+	
+			String req = "select * from groupe";
+	
+			ps = con.prepareStatement(req);
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next())
+				list.add(new Groupe(rs.getInt("idGroupe"),rs.getString("nom")));
+		}
+		catch(SQLException e)
+		{
+			System.out.println(e.getMessage());
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
+		finally
+		{
+			try {
+				if(ps != null) ps.close();
+				if(con != null) con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}	
+		
+		return list;
+	}
+
+	public String getGroupNameById(int groupId) 
+	{
+		String name="";
+		try
+		{		
+			con = this.getConnection();
+	
+			String req = "select nom from groupe where idGroupe=?";
+	
+			ps = con.prepareStatement(req);
+			ps.setInt(1, groupId);
+			ResultSet rs = ps.executeQuery();
+			System.out.println(ps);
+			if(rs.next())
+				name = rs.getString("nom");
+		}
+		catch(SQLException e)
+		{
+			System.out.println(e.getMessage());
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
+		finally
+		{
+			try {
+				if(ps != null) ps.close();
+				if(con != null) con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}	
+		return name;
+	}
+	
+	public int getGroupIdByName(String name) 
+	{
+		int id=0;
+		try
+		{		
+			con = this.getConnection();
+	
+			String req = "select idGroupe from groupe where nom=?";
+	
+			ps = con.prepareStatement(req);
+			ps.setString(1, name);
+			ResultSet rs = ps.executeQuery();
+			System.out.println(ps);
+			
+			if(rs.next())
+				id = rs.getInt("idGroupe");
+		}
+		catch(SQLException e)
+		{
+			System.out.println(e.getMessage());
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
+		finally
+		{
+			try {
+				if(ps != null) ps.close();
+				if(con != null) con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}	
+		return id;
+	}
+
+	public boolean groupExists(int idGroupe) 
+	{
+		boolean exists = false;
+		try
+		{
+			con = this.getConnection();
+			String req = "select * from groupe where idGroupe=?";
+	
+			ps = con.prepareStatement(req);
+			
+			ps.setInt(1, idGroupe);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			if(rs.next())
+				exists=true;
+		}
+		catch(SQLException e)
+		{
+			System.out.println(e.getMessage());
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
+		finally
+		{
+			try {
+				if(ps != null) ps.close();
+				if(con != null) con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}	
+
+		return exists;
+	}
+
+	public void deleteGroup(int idGroupe) 
+	{
+		System.out.println("Suppression : "+idGroupe);
+		
+		try
+		{
+		con = this.getConnection();
+		String req = "delete from groupe where idGroupe=?";
+	
+		ps = con.prepareStatement(req);;
+		ps.setInt(1, idGroupe);
+		
+		ps.execute();
+		}
+		catch(SQLException e)
+		{
+			System.out.println(e.getMessage());
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
+		finally
+		{
+			try {
+				if(ps != null) ps.close();
+				if(con != null) con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 }

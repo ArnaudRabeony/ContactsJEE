@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import DAOs.ContactDAO;
 import Models.Contact;
+import Models.Groupe;
 
 public class ContactService {
 
@@ -38,22 +39,6 @@ public class ContactService {
 	{
 		return cd.getContactOwnerByNumber(numero);
 	}
-	
-	public String createUpdateForm(int idContact)
-	{
-		Contact c = this.getContactById(idContact);
-		
-		String form ="<div id='indexFormContainer' class='col-sm-offset-1 col-md-offset-1 col-md-5 col-sm-5' <%= display %>>";
-		form+="<form class='form-group form-group-sm' method='post' action='Update'>";
-		form+="<input class='inputPadding form-control' type='number' name='idContact' id='idContact' value='"+idContact+"' placeholder='ID...'><br>";	
-		form+="<input class='inputPadding form-control' type='text' name='nom' id='nom' value='"+c.getNom()+"' placeholder='Nouveau nom...'><br>";	
-		form+="<input class='inputPadding form-control' type='text' name='prenom' id='prenom' value='"+c.getPrenom()+"' placeholder='Nouveau prénom...'><br>";	
-		form+="<input class='inputPadding form-control' type='text' name='email' id='email' value='"+c.getAdresse()+"' placeholder='Nouvelle adresse mail...'><br>";	
-		form+="<span id='errorMessage' data-type='${errorType}'><i>${errorMessage}</i></span><br>";
-		form+="<button class='btn btn-primary' type='submit'>Modifier le contact</button></form></div>";
-		
-		return form;
-	}
 
 	public Contact getContactById(int idContact) {
 		return cd.getContactById(idContact);
@@ -70,5 +55,20 @@ public class ContactService {
 	
 	public int getIdByContact(Contact contact) {
 		return cd.getIdByContact(contact);
+	}
+	
+	public Groupe getGroupByContactId(int idContact)
+	{
+		return cd.getGroupByContactId(idContact);
+	}
+	
+	public ArrayList<Contact> getNoGroupContacts()
+	{
+		return cd.getNoGroupContacts();
+	}
+	
+	public boolean addContactToGroup(int idContact, int idGroupe)
+	{
+		return cd.addContactToGroup(idContact, idGroupe);
 	}
 }

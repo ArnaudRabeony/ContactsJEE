@@ -31,7 +31,6 @@ $(function()
 			});
 			
 			var elements = $(".contactItem:visible").length;
-//			alert("elements affichés "+elements);
 			
 			elements == 0 ? $(".groupPanel").hide() : $(".contactItem").show();
 		}
@@ -51,9 +50,9 @@ $(function()
 	{
 		var group = $(this).parent().parent().parent().parent().prev().attr("data-group");
 		$("#indexFormContainer").hide();
-		$("#cardContainer").show();
-		$("#cardContactName").text($(this).parent().parent().text());
-		$("#groupeLabel").text(group);
+//		$("#cardContainer").show();
+//		$("#cardContactName").text($(this).parent().parent().text());
+//		$("#groupeLabel").text(group);
 	});
 	
 });

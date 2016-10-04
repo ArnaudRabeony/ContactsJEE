@@ -1,3 +1,4 @@
+<%@page import="Models.Groupe"%>
 <%@page import="ServiceEntities.GroupeService"%>
 <%@page import="ServiceEntities.TelephoneService"%>
 <%@page import="Models.Telephone"%>
@@ -23,7 +24,8 @@
 	Boolean empty = contacts.isEmpty();
 	
 	GroupeService gs = new GroupeService();
-	
+	ArrayList<Groupe> groupes = gs.getGroups();
+
 	String selectedId = request.getParameter("selectedId")!=null ? request.getParameter("selectedId") : "";
 	String display = selectedId.isEmpty() ? "style='display:none'" : "style='dipslay:block'";
 %>
@@ -38,40 +40,59 @@
 		<div class="groupPanel panel-group">
 	
 	<!-- 	foreach group g => g.getName() + getNbContactByGroup()	 -->
+	 <%
+		for(Groupe g : groupes)
+		{
+			ArrayList<Contact> members = gs.getContacts(g.getId());
+			%>
+	
 			    <div class="panel panel-default">
-			      <div data-toggle="collapse" data-target="#collapse2" class="panel-heading" data-group="NoGroup">
+			      <div data-toggle="collapse" data-target="#collapse<%=g.getId() %>" class="panel-heading" data-group="<%= g.getId()%>">
 			        <h4 class="panel-title">
-			          Pas de groupe
-			          <span style="float:right"><%= contacts.size() %></span>
+			          <%= g.getNom() %>
+			          <span style="float:right"><%= members.size() %></span>
 			        </h4>
 			      </div>
-			      <div id="collapse2" class="panel-collapse collapse">
-			        <ul class="list-group">
-			         	<li class="list-group-item contactItem">bb<span><img class='displayContact' src='images/Contacts-icon.png' width='30' height='35'></span></li>
-			         	<li class="list-group-item contactItem">aa<span><img class='displayContact' src='images/Contacts-icon.png' width='30' height='35'></span></li>
-			         	<li class="list-group-item contactItem">zez<span><img class='displayContact' src='images/Contacts-icon.png' width='30' height='35'></span></li>
-			        </ul>
-			      </div>
-			    </div>
-			    <div class="panel panel-default">
-			      <div data-toggle="collapse" data-target="#collapse1" class="panel-heading" data-group="Tous les contacts">
-			        <h4 class="panel-title">
-			          Tous les contacts
-<!-- 			          <span class="tag bg-primary label-pill pull-xs-right">14</span> -->
-			          <span style="float:right"><%= contacts.size() %></span>
-			        </h4>
-			      </div>
-			      <div id="collapse1" class="panel-collapse collapse">
+			      <div id="collapse<%=g.getId() %>" class="panel-collapse collapse">
 			        <ul class="list-group">
 			          <%
 							String line = "";
-							for(Contact c : contacts)
+							for(Contact c : members)
 								line+="<li class='list-group-item contactItem' data-contactid='"+c.getId()+"'>"+c.getNom()+" "+c.getPrenom()+"<span><img class='displayContact' src='images/Contacts-icon.png' width='30' height='35'></span></li>";
 							out.write(line);
 						%>
 			        </ul>
+			        </ul>
 			      </div>
 			    </div>
+	<%	}
+	 
+	 	ArrayList<Contact> noGroup = cs.getNoGroupContacts();
+	 	if(!noGroup.isEmpty())
+	 	{
+	 		
+	 		%>
+		    <div class="panel panel-default">
+		      <div data-toggle="collapse" data-target="#noGroup" class="panel-heading" data-group="NoGroup">
+		        <h4 class="panel-title">
+		          Pas de groupe
+		          <span style="float:right"><%= noGroup.size() %></span>
+		        </h4>
+		      </div>
+		      <div id="noGroup" class="panel-collapse collapse">
+		        <ul class="list-group">
+		          <%
+						String line = "";
+						for(Contact c : noGroup)
+							line+="<li class='list-group-item contactItem' data-contactid='"+c.getId()+"'>"+c.getNom()+" "+c.getPrenom()+"<span><img class='displayContact' src='images/Contacts-icon.png' width='30' height='35'></span></li>";
+						out.write(line);
+					%>
+		        </ul>
+		        </ul>
+		      </div>
+		    </div>
+<%		}
+	 %>
 	<!-- 	 -->  
 			  </div>
 		</div>
@@ -79,6 +100,8 @@
     if(selectedId!="")
    	{   
     	Contact c = cs.getContactById(Integer.valueOf(selectedId));
+    	Groupe groupe = cs.getGroupByContactId(Integer.valueOf(selectedId));
+    	String groupName = groupe.getNom();
    %>
 	<div id="contactInfo" class="row col-md-8 col-sm-8">
 		<div id="cardContainer" class="col-md-5 col-sm-5">
@@ -94,10 +117,9 @@
 		            </a>
 		        </div>
 		        <!--/.Card image-->
-		
 		        <!--Card content-->
 		        <div class="card-block" style="padding:10px;">
-		            <h5 class="red-text" id="groupeLabel">groupeService.getGroupeByContactId(c.getId())</h5>
+		            <h5 class="red-text" id="groupeLabel"><%= groupName %></h5>
 		            <!--Title-->
 		            <h4 class="card-title" id="cardContactName"><%= c.getPrenom()%> <%= c.getNom()%></h4>
 		            <!--Text-->
@@ -111,6 +133,7 @@
     		
     	%>
     	<div id="adressePhone" class="col-md-7 col-sm-7">
+<!--     		    	<h3 style="display:none"><small>Adresse(s)</small></h3> -->
 	    	<div id="addressList" class="list-group">
 	    	<%
 	    		AdresseService as = new AdresseService();
@@ -120,7 +143,7 @@
 	    			out.write("<li class='list-group-item'>"+a.getRue()+", "+a.getCodePostal()+"</li>");
 	    	%>
 			</div>
-			<hr>
+<!--     		    	<h3 style="display:none"><small>Téléphone(s)</small></h3> -->
 			<div id="telephonesList" class="list-group">
 			<%
 				TelephoneService ts = new TelephoneService();
@@ -145,6 +168,22 @@ $(function()
 		var id = $(this).parent().parent().attr("data-contactid");
 		window.location.href= "index.jsp?selectedId="+id;
 	});
+	
+	if($("#addressList li").length != 0 && $("#telephonesList li").length != 0)
+	{
+		$("<hr>").insertAfter("#addressList");
+		$("#adressePhone small").show();	
+	}
+	
+	if($("#telephonesList li")!=0)
+	{
+		$("#adressePhone small").eq(1).show();	
+	}
+	
+	if($("#addressList li")!=0)
+	{
+		$("#adressePhone small").eq(0).show();	
+	}
 });
 </script>
 </html>

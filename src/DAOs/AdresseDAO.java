@@ -80,7 +80,7 @@ public class AdresseDAO
 		con = this.getConnection();
 		String req = "delete from adresse where idAdresse=?";
 	
-		ps = con.prepareStatement(req);;
+		ps = con.prepareStatement(req);
 		ps.setInt(1, idAdresse);
 		
 		System.out.println(ps);
@@ -118,7 +118,7 @@ public class AdresseDAO
 		con = this.getConnection();
 		String req = "update adresse set rue=?,ville=?,codePostal=?,pays=? where idAdresse=?";
 
-		ps = con.prepareStatement(req);;
+		ps = con.prepareStatement(req);
 		ps.setString(1, newRue);
 		ps.setString(2, newVille);
 		ps.setString(3, newCodePostal);
@@ -232,7 +232,7 @@ public class AdresseDAO
 			con = this.getConnection();
 			String req = "delete from adresse where idContact=?";
 	
-			ps = con.prepareStatement(req);;
+			ps = con.prepareStatement(req);
 			
 			ps.setInt(1, idContact);
 			
@@ -257,5 +257,80 @@ public class AdresseDAO
 			}
 		}	
 		return changes>0;
+	}
+
+	public ArrayList<Adresse> getAdresses() 
+	{
+		ArrayList<Adresse> list = new ArrayList<Adresse>();
+		
+		try
+		{
+			con = this.getConnection();
+			String req = "select * from adresse";
+			ps = con.prepareStatement(req);
+			
+			rs = ps.executeQuery();
+			
+			while(rs.next())
+				list.add(new Adresse(rs.getInt("idAdresse"),rs.getString("rue"),rs.getString("ville"), rs.getString("codePostal"), rs.getString("pays")));
+		}
+		catch(SQLException e)
+		{
+			System.out.println(e.getMessage());
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
+		finally
+		{
+			try {
+				if(ps != null) ps.close();
+				if(con != null) con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}	
+		return list;
+	}
+
+	public boolean addressExists(int idAddress) 
+	{
+		boolean exists = false;
+		try
+		{
+			con = this.getConnection();
+			String req = "select * from adresse where idAdresse=?";
+	
+			ps = con.prepareStatement(req);
+			
+			ps.setInt(1, idAddress);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			if(rs.next())
+				exists=true;
+		}
+		catch(SQLException e)
+		{
+			System.out.println(e.getMessage());
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
+		finally
+		{
+			try {
+				if(ps != null) ps.close();
+				if(con != null) con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}	
+
+		return exists;
 	}
 }

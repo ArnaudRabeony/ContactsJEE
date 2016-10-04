@@ -16,6 +16,16 @@ public class Adresse {
 		this.pays = pays;
 	}
 	
+	public Adresse(int id, String rue, String ville, String codePostal,
+			String pays) {
+		super();
+		this.id = id;
+		this.rue = rue;
+		this.ville = ville;
+		this.codePostal = codePostal;
+		this.pays = pays;
+	}
+
 	public int getId() {
 		return id;
 	}

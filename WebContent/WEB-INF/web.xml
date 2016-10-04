@@ -94,4 +94,34 @@
     <servlet-name>CreateGroupServlet</servlet-name>
     <url-pattern>/CreateGroup</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>DeleteAddressServlet</display-name>
+    <servlet-name>DeleteAddressServlet</servlet-name>
+    <servlet-class>DeleteAddressServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DeleteAddressServlet</servlet-name>
+    <url-pattern>/DeleteAddress</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>DeletePhoneServlet</display-name>
+    <servlet-name>DeletePhoneServlet</servlet-name>
+    <servlet-class>DeletePhoneServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DeletePhoneServlet</servlet-name>
+    <url-pattern>/DeletePhone</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>DeleteGroupServlet</display-name>
+    <servlet-name>DeleteGroupServlet</servlet-name>
+    <servlet-class>DeleteGroupServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DeleteGroupServlet</servlet-name>
+    <url-pattern>/DeleteGroup</url-pattern>
+  </servlet-mapping>
 </web-app>

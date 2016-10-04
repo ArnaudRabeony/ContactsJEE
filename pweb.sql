@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Ven 30 Septembre 2016 à 07:12
+-- Généré le :  Mar 04 Octobre 2016 à 23:29
 -- Version du serveur :  5.7.15-0ubuntu0.16.04.1
 -- Version de PHP :  7.0.8-0ubuntu0.16.04.2
 
@@ -40,8 +40,10 @@ CREATE TABLE `adresse` (
 --
 
 INSERT INTO `adresse` (`idAdresse`, `rue`, `ville`, `codePostal`, `pays`, `idContact`) VALUES
-(1, 'azeaze azrazr', 'aze', 'zaar', 'eaze', 0),
-(2, 'a a', 'a', 'a', 'a', 0);
+(3, '32 Avenue Maurice Noguès', 'Athis-Mons', '91200', 'France', 10),
+(4, '422 Avenue PoincarÃ©', 'Vlr', '94290', 'France', 10),
+(5, 'ok ok', 'ok', 'ok', 'ok', 11),
+(6, 'nouvelleAdresse eara', 'eaze', 'zaea', 'ezaeaz', 10);
 
 -- --------------------------------------------------------
 
@@ -53,20 +55,19 @@ CREATE TABLE `contact` (
   `idContact` int(11) NOT NULL,
   `nom` varchar(20) NOT NULL,
   `prenom` varchar(20) NOT NULL,
-  `email` varchar(30) NOT NULL
+  `email` varchar(30) NOT NULL,
+  `idGroupe` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Contenu de la table `contact`
 --
 
-INSERT INTO `contact` (`idContact`, `nom`, `prenom`, `email`) VALUES
-(2, 'nom2', 'prenom2', 'email2'),
-(3, 'aze', 'azeraz', 'azae'),
-(4, 'aze', 'azra', 'aazeze'),
-(5, 'testNomm', 'testPrenomm', 'testEmailll'),
-(6, 'Fring', 'Gustavo', 'gustavo@g.c'),
-(9, 'ok', 'aze', 'zar');
+INSERT INTO `contact` (`idContact`, `nom`, `prenom`, `email`, `idGroupe`) VALUES
+(5, 'testNomm', 'testPrenomm', 'testEmailll', 10),
+(6, 'Fring', 'Gustavo', 'gustavo@g.c', 0),
+(10, 'testn', 'testp', 'teste', 11),
+(11, 'ok', 'ok', 'ok', 11);
 
 -- --------------------------------------------------------
 
@@ -78,7 +79,7 @@ CREATE TABLE `contacts` (
   `ID_CONTACT` bigint(20) NOT NULL,
   `FIRSTNAME` varchar(255) DEFAULT NULL,
   `LASTNAME` varchar(255) DEFAULT NULL,
-  `EMAIL` varchar(255) DEFAULT NULL
+  `EMAIL` varchar(255) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -99,6 +100,14 @@ CREATE TABLE `groupe` (
   `nom` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Contenu de la table `groupe`
+--
+
+INSERT INTO `groupe` (`idGroupe`, `nom`) VALUES
+(10, 'a'),
+(11, 'z');
+
 -- --------------------------------------------------------
 
 --
@@ -117,7 +126,9 @@ CREATE TABLE `telephone` (
 --
 
 INSERT INTO `telephone` (`idTelephone`, `type`, `numero`, `idContact`) VALUES
-(3, 'pro', 'a', 0);
+(3, 'pro', 'a', 0),
+(4, 'perso', '0626737651', 10),
+(5, 'pro', '0626737651', 10);
 
 --
 -- Index pour les tables exportées
@@ -163,12 +174,12 @@ ALTER TABLE `telephone`
 -- AUTO_INCREMENT pour la table `adresse`
 --
 ALTER TABLE `adresse`
-  MODIFY `idAdresse` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idAdresse` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT pour la table `contact`
 --
 ALTER TABLE `contact`
-  MODIFY `idContact` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `idContact` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT pour la table `contacts`
 --
@@ -178,12 +189,12 @@ ALTER TABLE `contacts`
 -- AUTO_INCREMENT pour la table `groupe`
 --
 ALTER TABLE `groupe`
-  MODIFY `idGroupe` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idGroupe` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT pour la table `telephone`
 --
 ALTER TABLE `telephone`
-  MODIFY `idTelephone` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idTelephone` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

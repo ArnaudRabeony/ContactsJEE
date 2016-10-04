@@ -38,4 +38,14 @@ public class AdresseService {
 	{
 		return ad.deleteAdressesByContactId(idContact);
 	}
+	
+	public ArrayList<Adresse> getAdresses()
+	{
+		return ad.getAdresses();
+	}
+	
+	public boolean addressExists(int idAddress)
+	{
+		return ad.addressExists(idAddress);
+	}
 }

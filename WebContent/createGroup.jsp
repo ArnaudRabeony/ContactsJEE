@@ -31,7 +31,7 @@
 						<hr>
 						<%
 							for(Contact c : contacts)
-								out.write("<div class='checkbox'><input type='checkbox' value='"+c.getId()+"'>"+c.getPrenom()+" "+c.getNom()+"</label></div>");
+								out.write("<div class='checkbox'><input name='addToGroup' type='checkbox' value='"+c.getId()+"'>"+c.getPrenom()+" "+c.getNom()+"</label></div>");
 						%>
 					</div>
 					<span style="color:red;" id="errorMessage" data-type="${errorType}"><i>${errorMessage}</i></span><br>

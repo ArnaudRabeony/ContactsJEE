@@ -17,11 +17,11 @@
 		    <h4 class="list-group-item-heading">Contact</h4>
 		    <p class="list-group-item-text">Mettre à jour les informations d'un contact existant</p>
 		  </a>
-		  <a href="createAddress.jsp" class="list-group-item">
+		  <a href="#" class="list-group-item">
 		    <h4 class="list-group-item-heading">Adresse</h4>
 		    <p class="list-group-item-text">Mettre à jour une adresse existante</p>
 		  </a>
-		  <a href="createPhoneNumber.jsp" class="list-group-item">
+		  <a href="#" class="list-group-item">
 		    <h4 class="list-group-item-heading">Numéro de téléphone</h4>
 		    <p class="list-group-item-text">Mettre à jour un numéro de téléphone existant</p>
 		  </a>

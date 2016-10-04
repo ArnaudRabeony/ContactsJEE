@@ -50,12 +50,4 @@ $(function()
 			
 			if($("#resultNom").text() != "")
 				$(".table").show();
-			
-			$("#condition").change(function()
-			{
-				if($(this).val()=="idContact")
-					$(this).prev().attr("type","number");
-				else
-					$(this).prev().attr("type","text");
-			});
 		});

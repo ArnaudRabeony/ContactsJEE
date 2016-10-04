@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import Models.Contact;
+import Models.Groupe;
 import Models.Telephone;
 import ServiceEntities.ContactService;
 
@@ -72,23 +73,17 @@ public class TelephoneDAO
 		return t;
 	}
 	
-	public void deleteTelephone(String numero)
+	public void deleteTelephone(int idTelephone)
 	{
-		System.out.println("Suppression : "+numero);
+		System.out.println("Suppression : "+idTelephone);
 		
 		try
 		{
 		con = this.getConnection();
-		String req = "delete from telephone where numero=?";
+		String req = "delete from telephone where idTelephone=?";
 	
 		ps = con.prepareStatement(req);;
-		ps.setString(1, numero);
-		
-		System.out.println(ps);
-		
-		ContactService cs = new ContactService();
-		Contact owner = cs.getContactOwnerByNumber(numero);
-		owner.removeTelephone(numero);
+		ps.setInt(1, idTelephone);
 		
 		ps.execute();
 		}
@@ -299,6 +294,83 @@ public class TelephoneDAO
 			}
 		}	
 		return changes>0;
+	}
+
+	public ArrayList<Telephone> getTelephones() 
+	{
+		ArrayList<Telephone> list = new ArrayList<Telephone>();
+		
+		try
+		{		
+			con = this.getConnection();
+	
+			String req = "select * from telephone";
+	
+			ps = con.prepareStatement(req);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next())
+				list.add(new Telephone(rs.getInt("idTelephone"),rs.getString("type"),rs.getString("numero"),rs.getInt("idContact")));
+		}
+		catch(SQLException e)
+		{
+			System.out.println(e.getMessage());
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
+		finally
+		{
+			try {
+				if(ps != null) ps.close();
+				if(con != null) con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}	
+		
+		return list;
+	}
+
+	public boolean telephoneExists(int idTelephone) {
+		boolean exists = false;
+		try
+		{
+			con = this.getConnection();
+			String req = "select * from telephone where idTelephone=?";
+	
+			ps = con.prepareStatement(req);
+			
+			ps.setInt(1, idTelephone);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			if(rs.next())
+				exists=true;
+		}
+		catch(SQLException e)
+		{
+			System.out.println(e.getMessage());
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
+		finally
+		{
+			try {
+				if(ps != null) ps.close();
+				if(con != null) con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}	
+
+		return exists;
 	}
 
 }

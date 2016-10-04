@@ -13,6 +13,12 @@ public class Groupe
 		this.nom = nom;
 	}
 	
+	public Groupe(int id, String nom) {
+		super();
+		this.id = id;
+		this.nom = nom;
+	}
+	
 	public int getId() {
 		return id;
 	}

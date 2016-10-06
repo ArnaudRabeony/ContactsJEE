@@ -31,7 +31,7 @@ public class TelephoneService
 		return td.getTelephonesByContactId(idContact);
 	}
 	
-	public String getNumberById(int id)
+	public Telephone getTelephoneById(int id)
 	{
 		return td.getNumberById(id);
 	}
@@ -52,5 +52,9 @@ public class TelephoneService
 
 	public boolean telephoneExists(int idTelephone) {
 		return td.telephoneExists(idTelephone);
+	}
+
+	public boolean telephoneExists(String type, String numero) {
+		return td.telephoneExists(type,numero);
 	}
 }

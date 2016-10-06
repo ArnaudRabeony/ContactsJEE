@@ -11,8 +11,16 @@
 </head>
 <body>
 <jsp:include page="header.jsp"/>
+<% 
+// if(request.getParameter("selectedId")!=null)
+// 	idAddress = Integer.valueOf(request.getParameter("selectedId"));
+
+// boolean create = idAddress==0;
+// String actionName = create ? "Créer une " : "Modifier une ";
+// String formAction = create ? "CreateAddress" : "UpdateAddress";
+%>
 		<div class="col-md-4 col-sm-4">
-			<h3>Créer Adresse :</h3> <br>
+			<h3>Créer une adresse :</h3> <br>
 			
 		<% 
 			ContactService cs = new ContactService();

@@ -55,8 +55,12 @@ public class GroupeService {
 		return gd.getGroupIdByName(name);
 	}
 	
-	public boolean groupExists(int idGroupe)
+	public boolean groupExists(String nom)
 	{
+		return gd.groupExists(nom);
+	}
+
+	public boolean groupExists(int idGroupe) {
 		return gd.groupExists(idGroupe);
 	}
 }

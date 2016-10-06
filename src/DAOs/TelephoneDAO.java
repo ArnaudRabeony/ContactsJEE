@@ -114,7 +114,7 @@ public class TelephoneDAO
 		try
 		{
 		con = this.getConnection();
-		String req = "update contact set type=?,numero=? where idTelephone=?";
+		String req = "update telephone set type=?,numero=? where idTelephone=?";
 
 		ps = con.prepareStatement(req);;
 		ps.setString(1, newType);
@@ -183,13 +183,13 @@ public class TelephoneDAO
 		return list;
 	}	
 	
-	public String getNumberById(int id)
+	public Telephone getNumberById(int id)
 	{
-		String number = null;
+		Telephone tel=null;
 		try
 		{
 			con = this.getConnection();
-			String req = "select number from telephone where idTelephone=?";
+			String req = "select * from telephone where idTelephone=?";
 	
 			ps = con.prepareStatement(req);;
 			ps.setInt(1, id);
@@ -198,7 +198,7 @@ public class TelephoneDAO
 			
 			rs.next();
 			
-			number=rs.getString("number");
+			tel= new Telephone(rs.getString("type"), rs.getString("numero"), rs.getInt("idContact"));
 		}
 		catch(SQLException e)
 		{
@@ -219,7 +219,7 @@ public class TelephoneDAO
 			}
 		}	
 
-		return number;
+		return tel;
 	}
 	
 	public int getIdByNumber(String numero)
@@ -345,6 +345,46 @@ public class TelephoneDAO
 			ps = con.prepareStatement(req);
 			
 			ps.setInt(1, idTelephone);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			System.out.println(ps);
+			if(rs.next())
+				exists=true;
+		}
+		catch(SQLException e)
+		{
+			System.out.println(e.getMessage());
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
+		finally
+		{
+			try {
+				if(ps != null) ps.close();
+				if(con != null) con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}	
+
+		return exists;
+	}
+
+	public boolean telephoneExists(String type, String numero) {
+		boolean exists = false;
+		try
+		{
+			con = this.getConnection();
+			String req = "select * from telephone where type=? and numero=?";
+	
+			ps = con.prepareStatement(req);
+			
+			ps.setString(1, type);
+			ps.setString(2, numero);
 			
 			ResultSet rs = ps.executeQuery();
 			

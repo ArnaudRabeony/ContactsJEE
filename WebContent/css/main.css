@@ -116,7 +116,7 @@ img {
 	padding : 10px 10px 10px 35px;
 }
 
-#editableFormCard
+#editableFormCard, #responseType
 {
 	display:none;
 }

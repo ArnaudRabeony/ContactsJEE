@@ -4,7 +4,8 @@ Projet Programmation Web MIAGE
 ## TODO 
 * Organiser suppressions par contact
 * Ajouter contact à un groupe
-* Modifications 
+* Modifier liste groupe (drag and drop ?)
+
 
 ### DONE
 * Créer classes Adresse, Telephone, Groupe
@@ -15,3 +16,4 @@ Projet Programmation Web MIAGE
 * Verification requetes (boolean avec ExecuteUpdate)
 * Carte contact + actions (modifier, supprimer)
 * Suppressions
+* Modifications 

@@ -17,15 +17,15 @@
 		    <h4 class="list-group-item-heading">Contact</h4>
 		    <p class="list-group-item-text">Mettre à jour les informations d'un contact existant</p>
 		  </a>
-		  <a href="#" class="list-group-item">
+		  <a href="searchAddress.jsp" class="list-group-item">
 		    <h4 class="list-group-item-heading">Adresse</h4>
 		    <p class="list-group-item-text">Mettre à jour une adresse existante</p>
 		  </a>
-		  <a href="#" class="list-group-item">
+		  <a href="searchPhone.jsp" class="list-group-item">
 		    <h4 class="list-group-item-heading">Numéro de téléphone</h4>
 		    <p class="list-group-item-text">Mettre à jour un numéro de téléphone existant</p>
 		  </a>
-		  <a href="#" class="list-group-item">
+		  <a href="searchGroup.jsp" class="list-group-item">
 		    <h4 class="list-group-item-heading">Groupe</h4>
 		    <p class="list-group-item-text">Mettre à jour un groupe existant</p>
 		  </a>

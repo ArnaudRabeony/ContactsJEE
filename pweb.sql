@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Mar 04 Octobre 2016 à 23:29
+-- Généré le :  Ven 07 Octobre 2016 à 00:10
 -- Version du serveur :  5.7.15-0ubuntu0.16.04.1
 -- Version de PHP :  7.0.8-0ubuntu0.16.04.2
 
@@ -66,8 +66,8 @@ CREATE TABLE `contact` (
 INSERT INTO `contact` (`idContact`, `nom`, `prenom`, `email`, `idGroupe`) VALUES
 (5, 'testNomm', 'testPrenomm', 'testEmailll', 10),
 (6, 'Fring', 'Gustavo', 'gustavo@g.c', 0),
-(10, 'testn', 'testp', 'teste', 11),
-(11, 'ok', 'ok', 'ok', 11);
+(10, 'White', 'Walter', 'teste', 11),
+(11, 'Pinkman', 'Jesse', 'ok', 11);
 
 -- --------------------------------------------------------
 
@@ -105,7 +105,7 @@ CREATE TABLE `groupe` (
 --
 
 INSERT INTO `groupe` (`idGroupe`, `nom`) VALUES
-(10, 'a'),
+(10, 'Nouveau groupe'),
 (11, 'z');
 
 -- --------------------------------------------------------
@@ -126,9 +126,9 @@ CREATE TABLE `telephone` (
 --
 
 INSERT INTO `telephone` (`idTelephone`, `type`, `numero`, `idContact`) VALUES
-(3, 'pro', 'a', 0),
-(4, 'perso', '0626737651', 10),
-(5, 'pro', '0626737651', 10);
+(3, 'pro', '0456124789', 0),
+(4, 'perso', '0123456789', 10),
+(5, 'pro', '06123456789', 10);
 
 --
 -- Index pour les tables exportées

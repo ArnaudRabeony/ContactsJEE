@@ -347,6 +347,45 @@ public class GroupeDAO {
 		return id;
 	}
 
+	public boolean groupExists(String nom) 
+	{
+		boolean exists = false;
+		try
+		{
+			con = this.getConnection();
+			String req = "select * from groupe where nom=?";
+	
+			ps = con.prepareStatement(req);
+			
+			ps.setString(1, nom);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			if(rs.next())
+				exists=true;
+		}
+		catch(SQLException e)
+		{
+			System.out.println(e.getMessage());
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
+		finally
+		{
+			try {
+				if(ps != null) ps.close();
+				if(con != null) con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}	
+
+		return exists;
+	}
+	
 	public boolean groupExists(int idGroupe) 
 	{
 		boolean exists = false;
@@ -385,7 +424,6 @@ public class GroupeDAO {
 
 		return exists;
 	}
-
 	public void deleteGroup(int idGroupe) 
 	{
 		System.out.println("Suppression : "+idGroupe);

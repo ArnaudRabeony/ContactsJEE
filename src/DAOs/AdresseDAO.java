@@ -123,6 +123,7 @@ public class AdresseDAO
 		ps.setString(2, newVille);
 		ps.setString(3, newCodePostal);
 		ps.setString(4, newPays);
+		ps.setInt(5, idAdresse);
 		
 		System.out.println(ps);
 		ps.execute();
@@ -306,6 +307,48 @@ public class AdresseDAO
 			ps = con.prepareStatement(req);
 			
 			ps.setInt(1, idAddress);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			if(rs.next())
+				exists=true;
+		}
+		catch(SQLException e)
+		{
+			System.out.println(e.getMessage());
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
+		finally
+		{
+			try {
+				if(ps != null) ps.close();
+				if(con != null) con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}	
+
+		return exists;
+	}
+
+	public boolean addressExists(String rue, String ville,String codep, String pays)
+	{
+		boolean exists = false;
+		try
+		{
+			con = this.getConnection();
+			String req = "select * from adresse where rue=? and ville=? and codep=? and pays=?";
+	
+			ps = con.prepareStatement(req);
+			
+			ps.setString(1, rue);
+			ps.setString(2, ville);
+			ps.setString(3, codep);
+			ps.setString(4, pays);
 			
 			ResultSet rs = ps.executeQuery();
 			

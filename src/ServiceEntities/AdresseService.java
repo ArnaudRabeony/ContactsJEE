@@ -48,4 +48,9 @@ public class AdresseService {
 	{
 		return ad.addressExists(idAddress);
 	}
+
+	public boolean addressExists(String rue, String ville,String codep, String pays)
+	{
+		return ad.addressExists(rue,ville,codep,pays);
+	}
 }

@@ -102,6 +102,18 @@
     	Contact c = cs.getContactById(Integer.valueOf(selectedId));
     	Groupe groupe = cs.getGroupByContactId(Integer.valueOf(selectedId));
     	String groupName = groupe.getNom();
+    	
+    	TelephoneService ts = new TelephoneService();
+    	ArrayList<Telephone> toDisplayTelephones = ts.getTelephonesByContactId(c.getId());
+    	
+    	String telToDisplay ="";
+    	
+    	if(!toDisplayTelephones.isEmpty())
+    	{
+   			for(Telephone t : toDisplayTelephones)
+	    		telToDisplay=t.getPhoneKind()+" : "+t.getNumber();
+    	}
+    	
    %>
 	<div id="contactInfo" class="row col-md-8 col-sm-8">
 		<div id="cardContainer" class="col-md-5 col-sm-5">
@@ -123,7 +135,7 @@
 		            <!--Title-->
 		            <h4 class="card-title" id="cardContactName"><%= c.getPrenom()%> <%= c.getNom()%></h4>
 		            <!--Text-->
-		            <p class="card-text">contact.getTelephone()<br><%= c.getEmail()%></p>
+		            <p class="card-text"><%=telToDisplay %><br><%= c.getEmail()%></p>
 		        </div>
 		        <!--/.Card content-->
 		    </div>
@@ -146,7 +158,6 @@
 <!--     		    	<h3 style="display:none"><small>Téléphone(s)</small></h3> -->
 			<div id="telephonesList" class="list-group">
 			<%
-				TelephoneService ts = new TelephoneService();
 	    		ArrayList<Telephone> telephones = ts.getTelephonesByContactId(c.getId());
 	    		
 	    		for(Telephone t : telephones)

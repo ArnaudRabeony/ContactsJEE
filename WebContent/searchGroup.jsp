@@ -1,4 +1,6 @@
+<%@page import="ServiceEntities.ContactService"%>
 <%@page import="Models.Groupe"%>
+<%@page import="Models.Contact"%>
 <%@page import="ServiceEntities.GroupeService"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -40,6 +42,20 @@
 	<form class="form-group form-group-sm col-sm-3 col-md-3" method="post" action="UpdateGroup">
 		<input type="hidden" name="selectedId" value="<%=request.getParameter("selectedId")%>">
 		<input class="form-control inputPadding col-md-9 col-sm-9" type="text" value="${errorNomGroupe}" name="nomGroupe" id="nomGroupe" placeholder="Nom...">
+		
+		<%
+				ContactService cs = new ContactService();
+				ArrayList<Contact> allContacts = cs.getContacts();
+				ArrayList<Contact> contacts = gs.getContacts(Integer.valueOf(request.getParameter("selectedId")));
+				
+				for(Contact c : allContacts)
+				{
+					if(cs.listContainsContact(contacts, c.getId()))
+						out.write("<input type='checkbox' checked name='members' value='"+c.getId()+"'> "+c.getPrenom()+" "+c.getNom()+"</input><br>");
+					else
+						out.write("<input type='checkbox' name='members' value='"+c.getId()+"'> "+c.getPrenom()+" "+c.getNom()+"</input><br>");
+				}
+		%>
 		<span id="errorMessage" data-type="${errorType}"><i>${errorMessage}</i></span><br>		
 		<button class="btn btn-primary" type="submit">Mettre à jour</button>
 	</form>

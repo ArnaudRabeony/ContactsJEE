@@ -36,32 +36,36 @@ public class DeletePhoneServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		String[] idTelephones = request.getParameterValues("selectedId");
 		int idTelephone = request.getParameter("selectedId").isEmpty() ? -1 : Integer.valueOf(request.getParameter("selectedId"));
-		System.out.println("idTelephone "+idTelephone);
-		if(idTelephone != -1)
+		System.out.println("idTelephone "+idTelephones);
+		if(idTelephones.length!=0)
 		{
 			TelephoneService ts = new TelephoneService();
-			boolean exists = ts.telephoneExists(idTelephone);
-
-			//TODO : tester existence condition dynamique
 			
-			if(exists)
+			for(String id : idTelephones)
 			{
-				ts.deleteTelephone(idTelephone);
-				response.sendRedirect("index.jsp");
+				int toDelete = Integer.valueOf(id);
+				boolean exists = ts.telephoneExists(toDelete);
+				
+				//TODO : tester existence condition dynamique
+				
+				if(exists)
+					ts.deleteTelephone(toDelete);
+				else
+				{
+					request.setAttribute("errorMessage", "Adresse à supprimer inexistante !");
+					request.setAttribute("errorType", "noRecord");
+					request.getRequestDispatcher("deletePhoneNumber.jsp").forward(request, response);
+				}
 			}
-			else
-			{
-				request.setAttribute("errorMessage", "Adresse à supprimer inexistante !");
-				request.setAttribute("errorType", "noRecord");
-				request.getRequestDispatcher("deleteAddress.jsp").forward(request, response);
-			}
+			response.sendRedirect("index.jsp");
 		}
 		else
 		{
 			request.setAttribute("errorMessage", "Veuillez remplir tous les champs ! ");
 			request.setAttribute("errorType", "deleteEmptyField");
-			request.getRequestDispatcher("deleteAddress.jsp").forward(request, response);
+			request.getRequestDispatcher("deletePhoneNumber.jsp").forward(request, response);
 		}
 		
 	}

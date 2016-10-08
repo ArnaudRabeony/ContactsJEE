@@ -30,8 +30,21 @@
 			%>
 			</select><br>
 			</div><br>
-			<button class="btn btn-primary" type="submit">Supprimer</button>
+			<button id="deleteBtn" class="btn btn-primary" type="submit" disabled>Supprimer</button>
 	</form>
 <jsp:include page="footer.jsp"/>
+<script>
+$(function()
+{
+	$("#selectedId").change(function()
+	{
+		var value =$(this).val();
+		if(value==-1)
+			$("#deleteBtn").attr("disabled",true);
+		else if(value!=-1)
+			$("#deleteBtn").attr("disabled",false);
+	});
 
+});
+</script>
 </html>

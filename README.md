@@ -2,9 +2,6 @@
 Projet Programmation Web MIAGE
 
 ## TODO 
-* Organiser suppressions par contact
-* Ajouter contact à un groupe
-* Modifier liste groupe (drag and drop ?)
 
 
 ### DONE
@@ -17,3 +14,6 @@ Projet Programmation Web MIAGE
 * Carte contact + actions (modifier, supprimer)
 * Suppressions
 * Modifications 
+* Modifier liste groupe
+* Ajouter contact à un groupe
+* Organiser suppressions par contact

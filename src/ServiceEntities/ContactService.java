@@ -71,4 +71,14 @@ public class ContactService {
 	{
 		return cd.addContactToGroup(idContact, idGroupe);
 	}
+	
+	public boolean listContainsContact(ArrayList<Contact> list, int idContact)
+	{
+		boolean contains = false;
+		for(Contact c : list)
+			if(c.getId()==idContact)
+				contains=true;
+		
+		return contains;
+	}
 }

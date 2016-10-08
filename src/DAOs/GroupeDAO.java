@@ -125,7 +125,7 @@ public class GroupeDAO {
 			ps.setInt(1, groupeId);
 			
 			ResultSet rs = ps.executeQuery();
-			
+			System.out.println(ps);
 			while(rs.next())
 				list.add(new Contact(rs.getInt("idContact"), rs.getString("nom"), rs.getString("prenom"), rs.getString("email")));
 		}
@@ -147,7 +147,6 @@ public class GroupeDAO {
 				e.printStackTrace();
 			}
 		}	
-		
 		return list;
 	}
 
@@ -272,9 +271,9 @@ public class GroupeDAO {
 		return list;
 	}
 
-	public String getGroupNameById(int groupId) 
+	public Groupe getGroupById(int groupId) 
 	{
-		String name="";
+		Groupe g= null;
 		try
 		{		
 			con = this.getConnection();
@@ -285,8 +284,9 @@ public class GroupeDAO {
 			ps.setInt(1, groupId);
 			ResultSet rs = ps.executeQuery();
 			System.out.println(ps);
+			
 			if(rs.next())
-				name = rs.getString("nom");
+				g = new Groupe(groupId, rs.getString("nom"));
 		}
 		catch(SQLException e)
 		{
@@ -306,7 +306,7 @@ public class GroupeDAO {
 				e.printStackTrace();
 			}
 		}	
-		return name;
+		return g;
 	}
 	
 	public int getGroupIdByName(String name) 
@@ -345,6 +345,44 @@ public class GroupeDAO {
 			}
 		}	
 		return id;
+	}
+	
+	public String getGroupNameById(int idGroupe) 
+	{
+		String name ="";
+		try
+		{		
+			con = this.getConnection();
+	
+			String req = "select nom from groupe where idGroupe=?";
+	
+			ps = con.prepareStatement(req);
+			ps.setInt(1, idGroupe);
+			ResultSet rs = ps.executeQuery();
+			System.out.println(ps);
+			
+			if(rs.next())
+				name = rs.getString("nom");
+		}
+		catch(SQLException e)
+		{
+			System.out.println(e.getMessage());
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
+		finally
+		{
+			try {
+				if(ps != null) ps.close();
+				if(con != null) con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}	
+		return name;
 	}
 
 	public boolean groupExists(String nom) 
@@ -457,4 +495,5 @@ public class GroupeDAO {
 			}
 		}
 	}
+
 }

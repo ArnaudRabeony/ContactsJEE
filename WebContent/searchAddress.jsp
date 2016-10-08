@@ -1,4 +1,5 @@
 <%@page import="Models.Adresse"%>
+<%@page import="Models.Contact"%>
 <%@page import="ServiceEntities.AdresseService"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="ServiceEntities.ContactService"%>
@@ -26,7 +27,11 @@
 				<option value="-1">Selectionnez une adresse...</option>
 			<%
 				for(Adresse a : adresses)
-					out.write("<option value='"+a.getId()+"'>"+a.getRue()+", "+a.getCodePostal()+"</option>");
+				{
+					ContactService cs = new ContactService();
+					Contact c = cs.getContactById(a.getIdContact());				
+					out.write("<option value='"+a.getId()+"'>"+c.getPrenom()+" "+c.getNom()+" : "+a.getRue()+", "+a.getCodePostal()+"</option>");
+				}		
 			%>
 			</select><br>
 			</div><br>
@@ -66,6 +71,15 @@ $(function()
 	{
 		$("#updateForm").show();
 	}
+	
+	$("#selectedId").change(function()
+	{
+		var value =$(this).val();
+		if(value==-1)
+		$("#deleteBtn").attr("disabled",true);
+		else if(value!=-1)
+		$("#deleteBtn").attr("disabled",false);
+	});
 });
 </script>
 </html>

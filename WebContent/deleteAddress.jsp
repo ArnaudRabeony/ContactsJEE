@@ -1,6 +1,8 @@
+<%@page import="ServiceEntities.ContactService"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="ServiceEntities.AdresseService"%>
 <%@page import="Models.Adresse"%>
+<%@page import="Models.Contact"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -25,12 +27,29 @@
 				<option value="-1">Selectionnez une adresse...</option>
 			<%
 				for(Adresse a : adresses)
-					out.write("<option value='"+a.getId()+"'>"+a.getRue()+", "+a.getCodePostal()+"</option>");
+				{
+					ContactService cs = new ContactService();
+					Contact c = cs.getContactById(a.getIdContact());				
+					out.write("<option value='"+a.getId()+"'>"+c.getPrenom()+" "+c.getNom()+" : "+a.getRue()+", "+a.getCodePostal()+"</option>");
+				}
 			%>
 			</select><br>
 			</div><br>
-			<button class="btn btn-primary" type="submit">Supprimer</button>
+			<button id="deleteBtn" class="btn btn-primary" type="submit" disabled>Supprimer</button>
 	</form>
 <jsp:include page="footer.jsp"/>
+<script>
+$(function()
+{
+	$("#selectedId").change(function()
+	{
+		var value =$(this).val();
+		if(value==-1)
+			$("#deleteBtn").attr("disabled",true);
+		else if(value!=-1)
+			$("#deleteBtn").attr("disabled",false);
+	});
 
+});
+</script>
 </html>

@@ -459,9 +459,8 @@ public class ContactDAO {
 			if(rs.next())
 			{
 				GroupeService gs = new GroupeService();
-				
-				int id = rs.getInt("idGroupe");
-				g=new Groupe(id, gs.getGroupNameById(id));
+				int idGroupe = rs.getInt("idGroupe");
+				g=new Groupe(idGroupe, gs.getGroupNameById(idGroupe));
 			}
 		}
 		catch(SQLException e)

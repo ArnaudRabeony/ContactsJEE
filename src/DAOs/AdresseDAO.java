@@ -273,7 +273,7 @@ public class AdresseDAO
 			rs = ps.executeQuery();
 			
 			while(rs.next())
-				list.add(new Adresse(rs.getInt("idAdresse"),rs.getString("rue"),rs.getString("ville"), rs.getString("codePostal"), rs.getString("pays")));
+				list.add(new Adresse(rs.getInt("idAdresse"),rs.getString("rue"),rs.getString("ville"), rs.getString("codePostal"), rs.getString("pays"), rs.getInt("idContact")));
 		}
 		catch(SQLException e)
 		{

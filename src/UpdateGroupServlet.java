@@ -1,16 +1,17 @@
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import Models.Contact;
 import Models.Groupe;
-import Models.Telephone;
+import ServiceEntities.ContactService;
 import ServiceEntities.GroupeService;
-import ServiceEntities.TelephoneService;
 
 /**
  * Servlet implementation class UpdateGroupServlet
@@ -42,6 +43,7 @@ public class UpdateGroupServlet extends HttpServlet {
 
 		nom = request.getParameter("nomGroupe")!=null ? request.getParameter("nomGroupe") : "";
 		int idGroupe = request.getParameter("selectedId")!= null ? Integer.valueOf(request.getParameter("selectedId")) : 0;
+		String[] membersIdList = request.getParameterValues("members");
 		
 		if(idGroupe!=0 && nom!=null)
 		{
@@ -50,15 +52,73 @@ public class UpdateGroupServlet extends HttpServlet {
 			{
 				if(gs.groupExists(idGroupe))
 				{
-					Groupe g = new Groupe(idGroupe, gs.getGroupNameById(idGroupe));
+					Groupe g = gs.getGroupById(idGroupe);
+					
+					ArrayList<Contact> previousList = gs.getContacts(idGroupe);
 					
 					System.out.println(g.getNom());
 					boolean nameHasChanged = !g.getNom().equals(nom);
-					System.out.println(nameHasChanged);
 					
-					if(nameHasChanged && !gs.groupExists(nom))// || !addressHasChanged)
+					int previousNumber = gs.getContacts(idGroupe).size();
+					int newNumber = 0;
+					boolean membersNumberHasChanged = false;
+					
+					System.out.println("membres avant "+previousNumber);
+					
+					if(membersIdList!=null)
+						newNumber = membersIdList.length;
+
+					System.out.println("membres apres "+ newNumber);
+					if(previousNumber != newNumber)
+						membersNumberHasChanged=true;
+					
+					System.out.println("name has changed "+nameHasChanged);
+					System.out.println("Members have changed "+membersNumberHasChanged);
+					
+					if(nameHasChanged && !gs.groupExists(nom) && !membersNumberHasChanged)// || !addressHasChanged)
 					{
 						gs.updateGroupe(idGroupe, nom);
+						response.sendRedirect("searchGroup.jsp");
+					}
+					if(nameHasChanged && !gs.groupExists(nom) && membersNumberHasChanged)// || !addressHasChanged)
+					{
+						gs.updateGroupe(idGroupe, nom);
+						if(membersIdList!=null)
+						{
+							ContactService cs = new ContactService();
+							
+							for(String member :membersIdList)
+							{
+								Contact c = cs.getContactById(Integer.valueOf(member));
+								cs.addContactToGroup(c.getId(), idGroupe);
+							}
+						}
+						response.sendRedirect("searchGroup.jsp");
+					}
+					else if(!nameHasChanged && membersNumberHasChanged)
+					{
+						if(membersIdList!=null)
+						{
+							ContactService cs = new ContactService();
+
+							for(Contact c : cs.getContacts())
+								if(c.getIdGroupe()==idGroupe)
+									cs.addContactToGroup(c.getId(), 0);
+							
+							for(String newContactId : membersIdList)
+							{
+								Contact c = cs.getContactById(Integer.valueOf(newContactId));
+								cs.addContactToGroup(c.getId(), idGroupe);
+							}
+						}
+						else
+						{
+							ContactService cs = new ContactService();
+							
+							for(Contact c : cs.getContacts())
+								if(c.getIdGroupe()==idGroupe)
+									cs.addContactToGroup(c.getId(), 0);
+						}
 						response.sendRedirect("searchGroup.jsp");
 					}
 					else

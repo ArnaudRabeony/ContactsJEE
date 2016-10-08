@@ -1,5 +1,7 @@
 <%@page import="Models.Telephone"%>
+<%@page import="Models.Contact"%>
 <%@page import="ServiceEntities.TelephoneService"%>
+<%@page import="ServiceEntities.ContactService"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -24,7 +26,15 @@
 				<option value="-1">Selectionnez un numéro...</option>
 			<%
 				for(Telephone t : telephones)
-					out.write("<option value='"+t.getId()+"'>"+t.getPhoneKind()+" : "+t.getNumber()+"</option>");
+				{
+					ContactService cs = new ContactService();
+					Contact c = cs.getContactById(t.getIdContact());
+					
+					if(c!=null)
+						out.write("<option value='"+t.getId()+"'> "+c.getPrenom()+" "+c.getNom()+" ("+t.getPhoneKind()+") : "+t.getNumber()+"</option>");
+					else
+						out.write("<option value='"+t.getId()+"'> "+t.getPhoneKind()+" : "+t.getNumber()+"</option>");
+				}
 			%>
 			</select><br>
 			</div><br>

@@ -35,7 +35,7 @@ public class SearchGroupServlet extends HttpServlet {
 		if(groupId != -1)
 		{
 			GroupeService gs = new GroupeService();
-			Groupe g = new Groupe(groupId, gs.getGroupNameById(groupId));
+			Groupe g = gs.getGroupById(groupId);
 
 			if(g != null)
 			{

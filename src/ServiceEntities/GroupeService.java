@@ -30,9 +30,9 @@ public class GroupeService {
 		return gd.updateGroupe(idGroupe, newNom);
 	}
 	
-	public ArrayList<Contact> getContacts(int contactId)
+	public ArrayList<Contact> getContacts(int groupId)
 	{
-		return gd.getContacts(contactId);
+		return gd.getContacts(groupId);
 	}
 	
 	public boolean exists(String nom)
@@ -45,10 +45,11 @@ public class GroupeService {
 		return gd.getGroups();
 	}
 	
-	public String getGroupNameById(int idGroupe)
+	public Groupe getGroupById(int idGroupe)
 	{
-		return gd.getGroupNameById(idGroupe);
+		return gd.getGroupById(idGroupe);
 	}
+	
 	
 	public int getGroupIdByName(String name) 
 	{
@@ -62,5 +63,9 @@ public class GroupeService {
 
 	public boolean groupExists(int idGroupe) {
 		return gd.groupExists(idGroupe);
+	}
+
+	public String getGroupNameById(int idGroupe) {
+		return gd.getGroupNameById(idGroupe);
 	}
 }

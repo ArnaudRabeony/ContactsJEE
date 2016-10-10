@@ -50,7 +50,6 @@ public class GroupeService {
 		return gd.getGroupById(idGroupe);
 	}
 	
-	
 	public int getGroupIdByName(String name) 
 	{
 		return gd.getGroupIdByName(name);

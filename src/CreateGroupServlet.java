@@ -42,10 +42,6 @@ public class CreateGroupServlet extends HttpServlet {
 		String[] addToGroup = request.getParameterValues("addToGroup");
 		
 		int i=0;
-		do
-		{
-			System.out.println(addToGroup[i++]);
-		}while(i<addToGroup.length);
 		
 		if(groupe!="")
 		{

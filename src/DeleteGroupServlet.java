@@ -1,12 +1,15 @@
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import Models.Contact;
+import ServiceEntities.ContactService;
 import ServiceEntities.GroupeService;
 import ServiceEntities.TelephoneService;
 
@@ -46,7 +49,14 @@ public class DeleteGroupServlet extends HttpServlet {
 			
 			if(exists)
 			{
+				ArrayList<Contact> members = gs.getContacts(idGroupe);
 				gs.deleteGroup(idGroupe);
+				
+				ContactService cs = new ContactService();
+				
+				for(Contact c : members)
+					cs.addContactToGroup(c.getId(), 0);
+				
 				response.sendRedirect("index.jsp");
 			}
 			else

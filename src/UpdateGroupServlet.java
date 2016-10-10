@@ -75,60 +75,34 @@ public class UpdateGroupServlet extends HttpServlet {
 					System.out.println("name has changed "+nameHasChanged);
 					System.out.println("Members have changed "+membersNumberHasChanged);
 					
-					if(nameHasChanged && !gs.groupExists(nom) && !membersNumberHasChanged)// || !addressHasChanged)
-					{
+					
+					if(nameHasChanged && !gs.groupExists(nom))// || !addressHasChanged)
 						gs.updateGroupe(idGroupe, nom);
-						response.sendRedirect("searchGroup.jsp");
-					}
-					if(nameHasChanged && !gs.groupExists(nom) && membersNumberHasChanged)// || !addressHasChanged)
+						
+					if(membersIdList!=null)
 					{
-						gs.updateGroupe(idGroupe, nom);
-						if(membersIdList!=null)
-						{
-							ContactService cs = new ContactService();
-							
-							for(String member :membersIdList)
-							{
-								Contact c = cs.getContactById(Integer.valueOf(member));
-								cs.addContactToGroup(c.getId(), idGroupe);
-							}
-						}
-						response.sendRedirect("searchGroup.jsp");
-					}
-					else if(!nameHasChanged && membersNumberHasChanged)
-					{
-						if(membersIdList!=null)
-						{
-							ContactService cs = new ContactService();
+						ContactService cs = new ContactService();
 
-							for(Contact c : cs.getContacts())
-								if(c.getIdGroupe()==idGroupe)
-									cs.addContactToGroup(c.getId(), 0);
-							
-							for(String newContactId : membersIdList)
-							{
-								Contact c = cs.getContactById(Integer.valueOf(newContactId));
-								cs.addContactToGroup(c.getId(), idGroupe);
-							}
-						}
-						else
+						for(Contact c : cs.getContacts())
+							if(c.getIdGroupe()==idGroupe)
+								cs.addContactToGroup(c.getId(), 0);
+						
+						for(String newContactId : membersIdList)
 						{
-							ContactService cs = new ContactService();
-							
-							for(Contact c : cs.getContacts())
-								if(c.getIdGroupe()==idGroupe)
-									cs.addContactToGroup(c.getId(), 0);
+							Contact c = cs.getContactById(Integer.valueOf(newContactId));
+							cs.addContactToGroup(c.getId(), idGroupe);
 						}
-						response.sendRedirect("searchGroup.jsp");
 					}
 					else
 					{
-						request.setAttribute("errorId", idGroupe);
-						request.setAttribute("errorMessage", "Le groupe existe déjà !");
-						request.setAttribute("errorType", "groupAlreadyExists");
-						request.getRequestDispatcher("searchGroup.jsp").forward(request,response);
+						ContactService cs = new ContactService();
+						
+						for(Contact c : cs.getContacts())
+							if(c.getIdGroupe()==idGroupe)
+								cs.addContactToGroup(c.getId(), 0);
 					}
 					
+					response.sendRedirect("searchGroup.jsp");
 				}
 				else
 				{
@@ -154,7 +128,7 @@ public class UpdateGroupServlet extends HttpServlet {
 			request.setAttribute("errorMessage", "Veuillez remplir tous les champs! ");
 			request.setAttribute("errorType", "fillGroupForm");
 			request.getRequestDispatcher("searchGroup.jsp").forward(request,response);
-			}
-}
+		}
+	}
 
 }
